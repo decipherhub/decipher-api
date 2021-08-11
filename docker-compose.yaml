@@ -13,7 +13,7 @@ services:
     expose:
       - '3306'
     volumes:
-      - data-mysql:/var/lib/mysql
+      - ./db/data:/var/lib/mysql
   api:
     stdin_open: true
     build:
@@ -32,7 +32,3 @@ services:
       - .:/app
     environment:
       - DATABASE_URL=${DATABASE_URL}
-
-volumes:
-  data-mysql:
-    external: true
