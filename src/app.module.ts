@@ -8,6 +8,6 @@ import { FooResolver } from './resolvers.foo';
 @Module({
   imports: [GraphQLModule.forRoot({ autoSchemaFile: true })],
   controllers: [AppController],
-  providers: [AppService, FooResolver],
+  providers: [AppService, FooResolver, PrismaService],
 })
 export class AppModule {}
