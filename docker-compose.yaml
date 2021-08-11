@@ -4,16 +4,35 @@ services:
   db:
     image: mysql:latest
     restart: always
-    container_name: mmc
+    container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
-      MYSQL_DATABASE: 'decipher_api'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DB_NAME}'
     ports:
       - '3306:3306'
     expose:
       - '3306'
     volumes:
       - data-mysql:/var/lib/mysql
+  api:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    container_name: nest_container
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    volumes:
+      - /app/node_module
+      - .:/app
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+
 volumes:
   data-mysql:
     external: true
