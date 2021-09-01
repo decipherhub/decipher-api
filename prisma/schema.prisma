@@ -15,3 +15,26 @@ model User {
   email String  @unique
   name  String?
 }
+
+model Member {
+  id        Int     @id @default(autoincrement())
+  name      String
+  info      String 
+  imageUrl  String
+  personalPage  PersonalPage[]
+}
+
+model PersonalPage {
+  id    Int  @id @default(autoincrement())
+  owner Member @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  type PageType
+  url   String
+}
+
+enum PageType {
+  GITHUB
+  LINKEDIN
+  MEDIUM
+}
+
