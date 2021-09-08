@@ -22,6 +22,7 @@ model Member {
   info      String 
   imageUrl  String
   personalPage  PersonalPage[]
+  periods   PeriodMember[]
 }
 
 model PersonalPage {
@@ -38,3 +39,26 @@ enum PageType {
   MEDIUM
 }
 
+model Period {
+  id        Int     @id @default(autoincrement())
+  generation Int
+  members   PeriodMember[]
+}
+
+model PeriodMember {
+  role      RoleType
+  member       Member     @relation(fields: [memberId], references: [id])
+  memberId     Int 
+  period   Period @relation(fields: [periodId], references: [id])
+  periodId Int 
+  @@id([memberId, periodId])
+}
+
+enum RoleType {
+  PRESIDENT
+  VICE_PRESIDENT
+  MEDIA_LEAD
+  MANAGER
+  MEMBER
+  MENTOR
+}
