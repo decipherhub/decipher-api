@@ -1,25 +1,47 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateMemberInput } from './member.input';
+import {
+  MemberCreateInput,
+  MemberDeleteInput,
+  MemberFindInput,
+  MemberFindManyInput,
+  MemberUpdateManyInput,
+} from './input/member.input';
 import { MemberService } from './member.service';
-import { MemberType } from './member.type';
+import { MemberResponse } from './response/member.response';
 
-@Resolver((_of) => MemberType)
+@Resolver()
 export class MemberResolver {
   constructor(private memberService: MemberService) {}
-  @Query((_returns) => MemberType)
-  member(@Args('id') id: number) {
-    return this.memberService.getMember(id);
+  @Query((_returns) => MemberResponse)
+  member(@Args('memberFindUniqueInput') memberFindInput: MemberFindInput) {
+    return this.memberService.findMember(memberFindInput);
   }
 
-  @Query((_returns) => [MemberType])
-  members() {
-    return this.memberService.getMembers();
-  }
-
-  @Mutation((_returns) => MemberType)
-  createMember(
-    @Args('createMemberInput') createMemberInput: CreateMemberInput,
+  @Query((_returns) => [MemberResponse])
+  members(
+    @Args('memberFindManyInput') memberFindManyInput: MemberFindManyInput,
   ) {
-    return this.memberService.createMember(createMemberInput);
+    return this.memberService.findMembers(memberFindManyInput);
+  }
+
+  @Mutation((_returns) => MemberResponse)
+  createMember(
+    @Args('memberCreateInput') memberCreateInput: MemberCreateInput,
+  ) {
+    return this.memberService.createMember(memberCreateInput);
+  }
+
+  @Mutation((_returns) => MemberResponse)
+  updateMember(
+    @Args('memberUpdateInput') memberUpdateManyInput: MemberUpdateManyInput,
+  ) {
+    return this.memberService.updateMember(memberUpdateManyInput);
+  }
+
+  @Mutation((_returns) => MemberResponse)
+  deleteMember(
+    @Args('memberCreateInput') memberDeleteInput: MemberDeleteInput,
+  ) {
+    return this.memberService.deleteMember(memberDeleteInput);
   }
 }

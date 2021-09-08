@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient, Member } from '@prisma/client';
-import { CreateMemberInput } from './member.input';
-
+import { PrismaClient, Member, Prisma } from '@prisma/client';
+import {
+  MemberCreateInput,
+  MemberDeleteInput,
+  MemberFindInput,
+  MemberFindManyInput,
+  MemberUpdateManyInput,
+} from './input/member.input';
 @Injectable()
 export class MemberService {
   constructor(private prisma: PrismaClient) {}
 
-  async createMember(createMemberInput: CreateMemberInput): Promise<Member> {
-    const { name, info, imageUrl } = createMemberInput;
+  async createMember(memberCreateInput: MemberCreateInput): Promise<Member> {
+    const { name, info, imageUrl } = memberCreateInput;
     const member = await this.prisma.member.create({
       data: {
         name,
@@ -19,18 +24,45 @@ export class MemberService {
     return member;
   }
 
-  async getMember(id: number): Promise<Member> {
+  async findMember(memberFindInput: MemberFindInput): Promise<Member> {
+    const { where } = memberFindInput;
     const member = await this.prisma.member.findUnique({
-      where: {
-        id,
-      },
+      where,
     });
 
     return member;
   }
 
-  async getMembers(): Promise<Member[]> {
-    const members = await this.prisma.member.findMany();
-    return members;
+  async findMembers(
+    memberFindManyInput: MemberFindManyInput,
+  ): Promise<Member[]> {
+    const { where, orderBy } = memberFindManyInput;
+    const member = await this.prisma.member.findMany({
+      where,
+      orderBy,
+    });
+
+    return member;
+  }
+
+  async updateMember(
+    memberUpdateManyInput: MemberUpdateManyInput,
+  ): Promise<Prisma.BatchPayload> {
+    const { where, data } = memberUpdateManyInput;
+    const member = await this.prisma.member.updateMany({
+      where,
+      data,
+    });
+
+    return member;
+  }
+
+  async deleteMember(memberDeleteInput: MemberDeleteInput): Promise<Member> {
+    const { where } = memberDeleteInput;
+    const member = await this.prisma.member.delete({
+      where,
+    });
+
+    return member;
   }
 }
