@@ -1,0 +1,43 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserResponse {
+  id: Float!
+  email: String!
+  name: String!
+  is_admin: Boolean!
+  token: String!
+}
+
+type Query {
+  sayHello: String!
+  signinUser(data: UserSigninInput!): UserResponse!
+  findUsers(data: UsersFindInput!): [UserResponse!]
+  findUser(data: UserFindInput!): UserResponse
+}
+
+input UserSigninInput {
+  email: String!
+  password: String!
+}
+
+input UsersFindInput {
+  orderBy: String
+}
+
+input UserFindInput {
+  id: Float!
+  email: String
+  name: String
+}
+
+type Mutation {
+  signupUser(data: UserSignupInput!): UserResponse!
+}
+
+input UserSignupInput {
+  email: String!
+  name: String!
+  password: String!
+}

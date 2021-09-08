@@ -13,5 +13,8 @@ generator client {
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
-  name  String?
+  name  String
+  password String
+  is_admin Boolean @default(false)
+  salt String @default("")
 }
