@@ -7,7 +7,13 @@ import { FooResolver } from './resolvers.foo';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [GraphQLModule.forRoot({ autoSchemaFile: true }), UserModule],
+  imports: [
+    GraphQLModule.forRoot({
+      autoSchemaFile: 'schema.gql',
+      context: ({ req, res }) => ({ req, res }),
+    }),
+    UserModule,
+  ],
   controllers: [AppController],
   providers: [AppService, FooResolver, PrismaService],
 })

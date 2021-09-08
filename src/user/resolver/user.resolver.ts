@@ -2,7 +2,9 @@ import { Resolver, Mutation, Args, Context, Query } from '@nestjs/graphql';
 import { UserService } from 'user/service/user.service';
 import { User } from '@prisma/client';
 import { UserResponse } from 'user/response/user.response';
-import { UserSigninInput } from '../input/user.input';
+import { UserSigninInput } from 'user/input/user.input';
+import { Response } from 'express';
+
 import {
   UserSignupInput,
   UserFindInput,
@@ -27,13 +29,19 @@ export class UserResolver {
 
   @Query((returns) => UserResponse)
   async signinUser(
-    @Args('data') data: UserSigninInput,
     @Context() ctx,
+    @Args('data') data: UserSigninInput,
   ): Promise<User> {
-    return this.userService.signin({
+    const user = await this.userService.signin({
       email: data.email,
       password: data.password,
     });
+
+    ctx.res.cookie('Authorization', user.token, {
+      httpOnly: true,
+    });
+
+    return user;
   }
 
   @Query((returns) => [UserResponse], { nullable: true })
