@@ -46,22 +46,23 @@ export class UserService {
     return user;
   }
 
-  async updateUser(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const { where, data } = params;
-    return this.prisma.user.update({
-      data,
-      where,
-    });
-  }
+  // TODO: Auth guard 붙이고 활성화
+  // async updateUser(params: {
+  //   where: Prisma.UserWhereUniqueInput;
+  //   data: Prisma.UserUpdateInput;
+  // }): Promise<User> {
+  //   const { where, data } = params;
+  //   return this.prisma.user.update({
+  //     data,
+  //     where,
+  //   });
+  // }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
-      where,
-    });
-  }
+  // async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  //   return this.prisma.user.delete({
+  //     where,
+  //   });
+  // }
 
   private async validateUser(data: UserSigninInput): Promise<User> {
     const { email, password } = data;
@@ -73,7 +74,7 @@ export class UserService {
     ) {
       return user;
     } else {
-      throw new ApolloError('Invalid username or password', '403');
+      throw new ApolloError('Invalid email or password', '403');
     }
   }
 
