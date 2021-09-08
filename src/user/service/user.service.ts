@@ -4,10 +4,11 @@ import { User, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { ApolloError } from 'apollo-server-errors';
 import { UserSigninInput } from '../input/user.input';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
@@ -40,10 +41,14 @@ export class UserService {
     });
   }
 
-  async signin(signinInput: UserSigninInput): Promise<User> {
-    const user = this.validateUser(signinInput);
-
-    return user;
+  async signin(signinInput: UserSigninInput): Promise<UserWithToken> {
+    const user = await this.validateUser(signinInput);
+    const payload = { username: user.name, sub: user.id };
+    const token = this.jwtService.sign(payload);
+    return {
+      ...user,
+      token,
+    };
   }
 
   // TODO: Auth guard 붙이고 활성화
@@ -95,3 +100,5 @@ export type UserQueryParams = {
   where?: Prisma.UserWhereInput;
   orderBy?: Prisma.UserOrderByInput;
 };
+
+type UserWithToken = User & { token: string };

@@ -13,4 +13,7 @@ export class UserResponse {
 
   @Field()
   is_admin: boolean;
+
+  @Field()
+  token: string;
 }
