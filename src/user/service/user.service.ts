@@ -14,13 +14,7 @@ export class UserService {
     });
   }
 
-  async users(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByInput;
-  }): Promise<User[]> {
+  async users(params?: UserQueryParams): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.user.findMany({
       skip,
@@ -54,3 +48,11 @@ export class UserService {
     });
   }
 }
+
+export type UserQueryParams = {
+  skip?: number;
+  take?: number;
+  cursor?: Prisma.UserWhereUniqueInput;
+  where?: Prisma.UserWhereInput;
+  orderBy?: Prisma.UserOrderByInput;
+};
