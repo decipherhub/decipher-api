@@ -9,8 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: 'jwtConstants.secret',
-      signOptions: { expiresIn: 60 * 60 * 24 },
+      secret: process.env.JWT_SECRET_KEY,
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
   ],
   providers: [PrismaService, UserService, UserResolver],
