@@ -1,35 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { ApolloError } from 'apollo-server-errors';
-import { UserSigninInput } from '../input/user.input';
+import {
+  UserSigninInput,
+  UsersFindInput,
+  UserFindInput,
+  UserSignupInput,
+} from 'user/input/user.input';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  async user(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
+  async user(data: UserFindInput): Promise<User | null> {
+    const { id } = data;
     return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
+      where: {
+        id,
+      },
     });
   }
 
-  async users(params?: UserQueryParams): Promise<User[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+  async users(params?: UsersFindInput): Promise<User[]> {
     return this.prisma.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
+      ...params,
     });
   }
 
-  async signup(signupInput: Prisma.UserCreateInput): Promise<User> {
+  async signup(signupInput: UserSignupInput): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(signupInput.password, salt);
     return this.prisma.user.create({
@@ -50,24 +51,6 @@ export class UserService {
       token,
     };
   }
-
-  // TODO: Auth guard 붙이고 활성화
-  // async updateUser(params: {
-  //   where: Prisma.UserWhereUniqueInput;
-  //   data: Prisma.UserUpdateInput;
-  // }): Promise<User> {
-  //   const { where, data } = params;
-  //   return this.prisma.user.update({
-  //     data,
-  //     where,
-  //   });
-  // }
-
-  // async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-  //   return this.prisma.user.delete({
-  //     where,
-  //   });
-  // }
 
   private async validateUser(data: UserSigninInput): Promise<User> {
     const { email, password } = data;
@@ -92,13 +75,5 @@ export class UserService {
     return hash === hashedPassword;
   }
 }
-
-export type UserQueryParams = {
-  skip?: number;
-  take?: number;
-  cursor?: Prisma.UserWhereUniqueInput;
-  where?: Prisma.UserWhereInput;
-  orderBy?: Prisma.UserOrderByInput;
-};
 
 type UserWithToken = User & { token: string };
