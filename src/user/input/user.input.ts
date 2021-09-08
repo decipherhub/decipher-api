@@ -2,12 +2,21 @@ import { Field, InputType } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
 
 @InputType()
-export class UserCreateInput {
+export class UserSignupInput {
   @Field()
   email: string;
 
   @Field()
   name: string;
+
+  @Field()
+  password: string;
+}
+
+@InputType()
+export class UserSigninInput {
+  @Field()
+  email: string;
 
   @Field()
   password: string;

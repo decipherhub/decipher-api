@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma.service';
 import { User, Prisma } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+import { ApolloError } from 'apollo-server-errors';
+import { UserSigninInput } from '../input/user.input';
 
 @Injectable()
 export class UserService {
@@ -25,10 +28,22 @@ export class UserService {
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+  async signup(signupInput: Prisma.UserCreateInput): Promise<User> {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(signupInput.password, salt);
     return this.prisma.user.create({
-      data,
+      data: {
+        ...signupInput,
+        password: hashedPassword,
+        salt: salt,
+      },
     });
+  }
+
+  async signin(signinInput: UserSigninInput): Promise<User> {
+    const user = this.validateUser(signinInput);
+
+    return user;
   }
 
   async updateUser(params: {
@@ -46,6 +61,29 @@ export class UserService {
     return this.prisma.user.delete({
       where,
     });
+  }
+
+  private async validateUser(data: UserSigninInput): Promise<User> {
+    const { email, password } = data;
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (
+      user &&
+      (await this.validatePassword(password, user.password, user.salt))
+    ) {
+      return user;
+    } else {
+      throw new ApolloError('Invalid username or password', '403');
+    }
+  }
+
+  private async validatePassword(
+    password: string,
+    hashedPassword: string,
+    salt: string,
+  ): Promise<boolean> {
+    const hash = await bcrypt.hash(password, salt);
+    return hash === hashedPassword;
   }
 }
 

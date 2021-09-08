@@ -2,8 +2,9 @@ import { Resolver, Mutation, Args, Context, Query } from '@nestjs/graphql';
 import { UserService } from 'user/service/user.service';
 import { User } from '@prisma/client';
 import { UserResponse } from 'user/response/user.response';
+import { UserSigninInput } from '../input/user.input';
 import {
-  UserCreateInput,
+  UserSignupInput,
   UserFindInput,
   UsersFindInput,
 } from 'user/input/user.input';
@@ -14,12 +15,23 @@ export class UserResolver {
 
   @Mutation((returns) => UserResponse)
   async signupUser(
-    @Args('data') data: UserCreateInput,
+    @Args('data') data: UserSignupInput,
     @Context() ctx,
   ): Promise<User> {
-    return this.userService.createUser({
+    return this.userService.signup({
       email: data.email,
       name: data.name,
+      password: data.password,
+    });
+  }
+
+  @Query((returns) => UserResponse)
+  async signinUser(
+    @Args('data') data: UserSigninInput,
+    @Context() ctx,
+  ): Promise<User> {
+    return this.userService.signin({
+      email: data.email,
       password: data.password,
     });
   }
