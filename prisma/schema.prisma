@@ -21,11 +21,11 @@ model Member {
   name      String
   info      String 
   imageUrl  String
-  personalPage  PersonalPage[]
+  contact  Contact[]
   periods   PeriodMember[]
 }
 
-model PersonalPage {
+model Contact {
   id    Int  @id @default(autoincrement())
   owner Member @relation(fields: [ownerId], references: [id])
   ownerId Int
@@ -37,6 +37,7 @@ enum PageType {
   GITHUB
   LINKEDIN
   MEDIUM
+  EMAIL
 }
 
 model Period {
