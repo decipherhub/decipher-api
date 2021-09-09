@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { ContactType } from '../enum/contactType.enum';
 import { MemberResponse } from './member.response';
 
 @ObjectType('contact')
-export class contactResponse {
+export class ContactResponse {
   @Field((_type) => ID)
   id: string;
 
@@ -14,11 +15,4 @@ export class contactResponse {
 
   @Field()
   url: string;
-}
-
-enum ContactType {
-  GITHUB = 'GITHUB',
-  LINKEDIN = 'LINKEDIN',
-  MEDIUM = 'MEDIUM',
-  EMAIL = 'EMAIL',
 }

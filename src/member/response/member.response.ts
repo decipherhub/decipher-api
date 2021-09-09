@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { PeriodMemberResponse } from './periodMember.response';
-import { contactResponse } from './contact.response';
+import { ContactResponse } from './contact.response';
 
 @ObjectType('Member')
 export class MemberResponse {
@@ -16,8 +16,8 @@ export class MemberResponse {
   @Field()
   imageUrl: string;
 
-  @Field((_type) => [contactResponse])
-  contact: contactResponse[];
+  @Field((_type) => [ContactResponse])
+  contacts: ContactResponse[];
 
   @Field((_type) => [PeriodMemberResponse])
   periods: PeriodMemberResponse[];
