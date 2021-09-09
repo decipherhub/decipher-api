@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `contact` MODIFY `type` ENUM('GITHUB', 'LINKEDIN', 'MEDIUM', 'EMAIL') NOT NULL;
