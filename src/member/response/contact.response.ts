@@ -1,8 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { MemberResponse } from './member.response';
 
-@ObjectType('PersonalPage')
-export class PersonalPageResponse {
+@ObjectType('contact')
+export class contactResponse {
   @Field((_type) => ID)
   id: string;
 
@@ -10,14 +10,15 @@ export class PersonalPageResponse {
   owner: MemberResponse;
 
   @Field()
-  type: PageType;
+  type: ContactType;
 
   @Field()
   url: string;
 }
 
-enum PageType {
+enum ContactType {
   GITHUB = 'GITHUB',
   LINKEDIN = 'LINKEDIN',
   MEDIUM = 'MEDIUM',
+  EMAIL = 'EMAIL',
 }
