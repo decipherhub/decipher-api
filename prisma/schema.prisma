@@ -69,7 +69,6 @@ enum RoleType {
   MENTOR
 }
 
-
 model News {
   id        Int       @id @default(autoincrement())
   title     String
@@ -80,4 +79,18 @@ model News {
   link      String
   image_url  String
   is_disclosed Boolean
+}
+
+model DeferenceImage {
+  id                Int               @id @default(autoincrement())
+  type              String
+  image_url         String
+  deference         Deference         @relation(fields: [deferenceId], references: [id])
+  deferenceId       Int
+}
+
+model Deference {
+  id                Int               @id @default(autoincrement())
+  year              Int       
+  deferenceImage    DeferenceImage[]  
 }

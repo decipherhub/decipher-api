@@ -7,6 +7,8 @@ import { UserModule } from './user/user.module';
 import { MemberModule } from 'member/member.module';
 import { PeriodModule } from 'period/period.module';
 import { NewsModule } from 'news/news.module';
+import { DeferenceModule } from 'deference/deference.module';
+import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { NewsModule } from 'news/news.module';
     UserModule,
     MemberModule,
     PeriodModule,
-    NewsModule
+    NewsModule,
+    DeferenceModule,
+    DeferenceImageModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
