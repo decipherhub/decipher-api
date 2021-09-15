@@ -39,6 +39,22 @@ type Member {
   periods: [PeriodMember!]
 }
 
+type NewsResponse {
+  id: Int!
+  title: String!
+  member: Member!
+  datetime: DateTime!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
@@ -46,6 +62,8 @@ type Query {
   member(memberFindByIdInput: MemberFindByIdInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
+  getNewsById(id: Float!): NewsResponse
+  getAllNews: [NewsResponse!]!
 }
 
 input UserSigninInput {
@@ -85,6 +103,9 @@ type Mutation {
   createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
+  createNews(createNewsInput: CreateNewsInput!): NewsResponse!
+  updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
+  deleteNews(id: Float!): NewsResponse!
 }
 
 input UserSignupInput {
@@ -143,4 +164,22 @@ input PeriodMemberCreateOrUpdateInput {
 input PeriodMemberUniqueInput {
   memberId: Int!
   periodId: Int!
+
+input CreateNewsInput {
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+input UpdateNewsInput {
+  id: Float!
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
 }
