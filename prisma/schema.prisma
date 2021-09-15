@@ -18,3 +18,23 @@ model User {
   is_admin Boolean @default(false)
   salt String @default("")
 }
+
+model Member {
+  id        Int       @id @default(autoincrement())
+  name      String
+  info      String 
+  image_url  String
+  news      News[]                                                          // fields used to generate Prisma Client
+}
+
+model News {
+  id        Int       @id @default(autoincrement())
+  title     String
+  member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
+  memberId  Int                                                             // foreign key in database
+  datetime  DateTime  @default(now())
+  summary   String
+  link      String
+  image_url  String
+  is_disclosed Boolean
+}

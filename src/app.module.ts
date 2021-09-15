@@ -5,6 +5,7 @@ import { PrismaService } from './prisma.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { FooResolver } from './resolvers.foo';
 import { UserModule } from './user/user.module';
+import { NewsModule } from 'news/news.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from './user/user.module';
       context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
+    NewsModule
   ],
   controllers: [AppController],
   providers: [AppService, FooResolver, PrismaService],

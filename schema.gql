@@ -10,11 +10,36 @@ type UserResponse {
   token: String!
 }
 
+type Member {
+  id: ID!
+  name: String!
+  info: String!
+  imageUrl: String!
+}
+
+type NewsResponse {
+  id: Int!
+  title: String!
+  member: Member!
+  datetime: DateTime!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   sayHello: String!
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
   findUser(data: UserFindInput!): UserResponse
+  getNewsById(id: Float!): NewsResponse
+  getAllNews: [NewsResponse!]!
 }
 
 input UserSigninInput {
@@ -34,10 +59,32 @@ input UserFindInput {
 
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
+  createNews(createNewsInput: CreateNewsInput!): NewsResponse!
+  updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
+  deleteNews(id: Float!): NewsResponse!
 }
 
 input UserSignupInput {
   email: String!
   name: String!
   password: String!
+}
+
+input CreateNewsInput {
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+input UpdateNewsInput {
+  id: Float!
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
 }
