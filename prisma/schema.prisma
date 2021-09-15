@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 model User {
@@ -17,4 +18,52 @@ model User {
   password String
   is_admin Boolean @default(false)
   salt String @default("")
+}
+
+model Member {
+  id        Int     @id @default(autoincrement())
+  name      String
+  info      String 
+  imageUrl  String
+  contacts  Contact[]
+  periods   PeriodMember[]
+}
+
+model Contact {
+  id    Int  @id @default(autoincrement())
+  owner Member @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId Int
+  type PageType
+  url   String
+}
+
+enum PageType {
+  GITHUB
+  LINKEDIN
+  MEDIUM
+  EMAIL
+}
+
+model Period {
+  id        Int     @id @default(autoincrement())
+  generation Int
+  members   PeriodMember[]
+}
+
+model PeriodMember {
+  role      RoleType
+  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId     Int 
+  period   Period @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  periodId Int 
+  @@id([memberId, periodId])
+}
+
+enum RoleType {
+  PRESIDENT
+  VICE_PRESIDENT
+  MEDIA_LEAD
+  MANAGER
+  MEMBER
+  MENTOR
 }

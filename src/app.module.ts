@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import { FooResolver } from './resolvers.foo';
 import { UserModule } from './user/user.module';
+import { MemberModule } from 'member/member.module';
+import { PeriodModule } from 'period/period.module';
 
 @Module({
   imports: [
@@ -13,8 +14,10 @@ import { UserModule } from './user/user.module';
       context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
+    MemberModule,
+    PeriodModule,
   ],
   controllers: [AppController],
-  providers: [AppService, FooResolver, PrismaService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}
