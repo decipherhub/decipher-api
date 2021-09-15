@@ -6,6 +6,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { FooResolver } from './resolvers.foo';
 import { UserModule } from './user/user.module';
 import { NewsModule } from 'news/news.module';
+import { DeferenceModule } from 'deference/deference.module';
+import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { NewsModule } from 'news/news.module';
       context: ({ req, res }) => ({ req, res }),
     }),
     UserModule,
-    NewsModule
+    NewsModule,
+    DeferenceModule,
+    DeferenceImageModule
   ],
   controllers: [AppController],
   providers: [AppService, FooResolver, PrismaService],
