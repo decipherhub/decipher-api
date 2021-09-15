@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Member } from '../member/member.model';
+import { MemberResponse } from '../member/member.response';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType('NewsResponse')
@@ -10,8 +10,8 @@ export class NewsResponse {
   @Field()
   title: string;
 
-  @Field((type) => Member)
-  member: Member;
+  @Field((type) => MemberResponse)
+  member: MemberResponse;
 
   @Field((type) => Date)
   datetime: Date;

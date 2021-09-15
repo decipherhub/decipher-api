@@ -4,4 +4,6 @@ import { DeferenceService } from "./deference.service";
 @Resolver()
 export class DeferenceResolver {
     constructor(private deferenceService: DeferenceService) {}
+
+    
 }
