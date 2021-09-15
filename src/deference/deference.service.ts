@@ -10,12 +10,18 @@ export class DeferenceService {
         return await this.prisma.deference.findUnique({
             where: {
                 id,
+            }, include: {
+                deferenceImage: true
             }
         })
     };
 
     async getDeferences(): Promise<Deference[]> {
-        return await this.prisma.deference.findMany();
+        return await this.prisma.deference.findMany({
+            include: {
+                deferenceImage: true
+            }
+        });
     }
 
     async createDeference(createDeferenceInput: CreateDeferenceInput): Promise<Deference> {

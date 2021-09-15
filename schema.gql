@@ -10,6 +10,22 @@ type UserResponse {
   token: String!
 }
 
+type NewsResponse {
+  id: Int!
+  title: String!
+  member: Member!
+  datetime: DateTime!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Period {
   id: Int!
   generation: Float!
@@ -35,29 +51,9 @@ type Member {
   name: String!
   info: String!
   imageUrl: String!
+  news: [NewsResponse!]
   contacts: [Contact!]
   periods: [PeriodMember!]
-}
-
-type NewsResponse {
-  id: Int!
-  title: String!
-  member: Member!
-  datetime: DateTime!
-  summary: String!
-  link: String!
-  image_url: String!
-  is_disclosed: Boolean!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type DeferenceResponse {
-  id: Int!
-  year: Int!
 }
 
 type DeferenceImageResponse {
@@ -65,6 +61,12 @@ type DeferenceImageResponse {
   type: String!
   image_url: String!
   deference: DeferenceResponse!
+}
+
+type DeferenceResponse {
+  id: Int!
+  year: Int!
+  deferenceImages: [DeferenceImageResponse!]!
 }
 
 type Query {
@@ -186,6 +188,7 @@ input PeriodMemberCreateOrUpdateInput {
 input PeriodMemberUniqueInput {
   memberId: Int!
   periodId: Int!
+}
 
 input CreateNewsInput {
   title: String!
@@ -197,7 +200,7 @@ input CreateNewsInput {
 }
 
 input UpdateNewsInput {
-  id: Float!
+  id: Int!
   title: String!
   memberId: Int!
   summary: String!
