@@ -1,5 +1,7 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
+import { ContactCreateOrConnectInput } from './contact.input';
+import { PeriodConnectInput } from '../../period/input/period.input';
 
 @InputType()
 export class MemberCreateInput {
@@ -12,39 +14,52 @@ export class MemberCreateInput {
   @Field()
   imageUrl: string;
 
-  @Field((_type) => String, { nullable: true })
-  personalPage: Prisma.PersonalPageCreateNestedManyWithoutOwnerInput;
-
-  @Field((_type) => String, { nullable: true })
-  periods: Prisma.PeriodMemberCreateNestedManyWithoutMemberInput;
+  @Field((_type) => ContactCreateOrConnectInput, {
+    nullable: true,
+  })
+  contacts: ContactCreateOrConnectInput;
 }
 
 @InputType()
-export class MemberFindInput {
-  @Field((_type) => String)
-  where: Prisma.MemberWhereUniqueInput;
+export class MemberFindByIdInput {
+  @Field((_type) => Int)
+  id: number;
 }
 
 @InputType()
 export class MemberFindManyInput {
-  @Field((_type) => String)
-  where: Prisma.MemberWhereInput;
-
   @Field((_type) => String, { nullable: true })
   orderBy: Prisma.MemberOrderByInput;
 }
 
 @InputType()
-export class MemberUpdateManyInput {
-  @Field((_type) => String)
-  where: Prisma.MemberWhereInput;
+export class MemberUpdateData {
+  @Field({ nullable: true })
+  name?: string;
 
-  @Field((_type) => String)
-  data: Prisma.MemberUpdateInput;
+  @Field({ nullable: true })
+  info?: string;
+
+  @Field({ nullable: true })
+  imageUrl?: string;
+
+  @Field((_type) => ContactCreateOrConnectInput, {
+    nullable: true,
+  })
+  contacts: ContactCreateOrConnectInput;
+}
+
+@InputType()
+export class MemberUpdateInput {
+  @Field((_type) => Int)
+  id: number;
+
+  @Field((_type) => MemberUpdateData)
+  data: MemberUpdateData;
 }
 
 @InputType()
 export class MemberDeleteInput {
-  @Field((_type) => String)
-  where: Prisma.MemberWhereUniqueInput;
+  @Field((_type) => Int)
+  id: number;
 }
