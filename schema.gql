@@ -13,7 +13,7 @@ type UserResponse {
 type Period {
   id: Int!
   generation: Float!
-  memberId: [Int!]!
+  memberId: [Member!]!
 }
 
 type PeriodMember {
@@ -45,6 +45,7 @@ type Query {
   findUser(data: UserFindInput!): UserResponse
   member(memberFindByIdInput: MemberFindByIdInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
+  periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
 }
 
 input UserSigninInput {
@@ -70,11 +71,20 @@ input MemberFindManyInput {
   orderBy: String
 }
 
+input PeriodFindInput {
+  id: Int
+  generation: Int
+}
+
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
   createMember(memberCreateInput: MemberCreateInput!): Member!
   updateMember(memberUpdateInput: MemberUpdateInput!): Member!
   deleteMember(memberDeleteInput: MemberDeleteInput!): Member!
+  createPeriod(periodGenerationInput: PeriodGenerationInput!): Period!
+  createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
+  updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
+  deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
 }
 
 input UserSignupInput {
@@ -118,4 +128,19 @@ input MemberUpdateData {
 
 input MemberDeleteInput {
   id: Int!
+}
+
+input PeriodGenerationInput {
+  generation: Int!
+}
+
+input PeriodMemberCreateOrUpdateInput {
+  role: String!
+  memberId: Int!
+  periodId: Int!
+}
+
+input PeriodMemberUniqueInput {
+  memberId: Int!
+  periodId: Int!
 }
