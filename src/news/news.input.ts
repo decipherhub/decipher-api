@@ -25,7 +25,7 @@ export class CreateNewsInput {
 export class UpdateNewsInput {
   @Field((type) => Int)
   id: number;
-  
+
   @Field()
   title: string;
 

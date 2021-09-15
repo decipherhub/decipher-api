@@ -4,15 +4,15 @@ import { DeferenceResponse } from 'deference/deference.response';
 
 @ObjectType('DeferenceImageResponse')
 export class DeferenceImageResponse {
-    @Field((type) => Int)
-    id: number;
+  @Field((type) => Int)
+  id: number;
 
-    @Field()
-    type: string;
+  @Field()
+  type: string;
 
-    @Field()
-    image_url: string;
+  @Field()
+  image_url: string;
 
-    @Field((type) => DeferenceResponse)
-    deference: DeferenceResponse;
+  @Field((type) => DeferenceResponse)
+  deference: DeferenceResponse;
 }

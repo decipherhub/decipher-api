@@ -17,7 +17,7 @@ export class MemberResponse {
   @Field()
   imageUrl: string;
 
-  @Field((_type) => [NewsResponse], {nullable: true})
+  @Field((_type) => [NewsResponse], { nullable: true })
   news: NewsResponse[];
 
   @Field((_type) => [ContactResponse], { nullable: true })
