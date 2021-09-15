@@ -2,9 +2,9 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   MemberCreateInput,
   MemberDeleteInput,
-  MemberFindInput,
+  MemberFindByIdInput,
   MemberFindManyInput,
-  MemberUpdateManyInput,
+  MemberUpdateInput,
 } from './input/member.input';
 import { MemberService } from './member.service';
 import { MemberResponse } from './response/member.response';
@@ -13,8 +13,10 @@ import { MemberResponse } from './response/member.response';
 export class MemberResolver {
   constructor(private memberService: MemberService) {}
   @Query((_returns) => MemberResponse)
-  member(@Args('memberFindUniqueInput') memberFindInput: MemberFindInput) {
-    return this.memberService.findMember(memberFindInput);
+  member(
+    @Args('memberFindByIdInput') memberFindByIdInput: MemberFindByIdInput,
+  ) {
+    return this.memberService.findMemberById(memberFindByIdInput);
   }
 
   @Query((_returns) => [MemberResponse])
@@ -33,14 +35,14 @@ export class MemberResolver {
 
   @Mutation((_returns) => MemberResponse)
   updateMember(
-    @Args('memberUpdateInput') memberUpdateManyInput: MemberUpdateManyInput,
+    @Args('memberUpdateInput') memberUpdateManyInput: MemberUpdateInput,
   ) {
     return this.memberService.updateMember(memberUpdateManyInput);
   }
 
   @Mutation((_returns) => MemberResponse)
   deleteMember(
-    @Args('memberCreateInput') memberDeleteInput: MemberDeleteInput,
+    @Args('memberDeleteInput') memberDeleteInput: MemberDeleteInput,
   ) {
     return this.memberService.deleteMember(memberDeleteInput);
   }

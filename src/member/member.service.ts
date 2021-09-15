@@ -1,33 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient, Member, Prisma } from '@prisma/client';
+import { PrismaClient, Member } from '@prisma/client';
 import {
   MemberCreateInput,
   MemberDeleteInput,
-  MemberFindInput,
+  MemberFindByIdInput,
   MemberFindManyInput,
-  MemberUpdateManyInput,
+  MemberUpdateInput,
 } from './input/member.input';
 @Injectable()
 export class MemberService {
   constructor(private prisma: PrismaClient) {}
 
   async createMember(memberCreateInput: MemberCreateInput): Promise<Member> {
-    const { name, info, imageUrl } = memberCreateInput;
+    const { name, info, imageUrl, contacts } = memberCreateInput;
+
+    const contactCreate = {
+      createMany: { data: contacts?.create },
+    };
+
+    const contactConnect = { connect: contacts?.connect };
+
     const member = await this.prisma.member.create({
       data: {
         name,
         info,
         imageUrl,
+        contacts: contacts.create ? contactCreate : contactConnect,
+      },
+      include: {
+        contacts: true,
+        periods: true,
       },
     });
 
     return member;
   }
 
-  async findMember(memberFindInput: MemberFindInput): Promise<Member> {
-    const { where } = memberFindInput;
+  async findMemberById(
+    memberFindByIdInput: MemberFindByIdInput,
+  ): Promise<Member> {
+    const { id } = memberFindByIdInput;
     const member = await this.prisma.member.findUnique({
-      where,
+      where: { id },
+      include: {
+        contacts: true,
+        periods: true,
+      },
+      rejectOnNotFound: true,
     });
 
     return member;
@@ -36,31 +55,36 @@ export class MemberService {
   async findMembers(
     memberFindManyInput: MemberFindManyInput,
   ): Promise<Member[]> {
-    const { where, orderBy } = memberFindManyInput;
+    const { orderBy } = memberFindManyInput;
     const member = await this.prisma.member.findMany({
-      where,
       orderBy,
+      include: {
+        contacts: true,
+        periods: true,
+      },
     });
 
     return member;
   }
 
-  async updateMember(
-    memberUpdateManyInput: MemberUpdateManyInput,
-  ): Promise<Prisma.BatchPayload> {
-    const { where, data } = memberUpdateManyInput;
-    const member = await this.prisma.member.updateMany({
-      where,
+  async updateMember(memberUpdateInput: MemberUpdateInput): Promise<Member> {
+    const { id, data } = memberUpdateInput;
+    const member = await this.prisma.member.update({
+      where: { id },
       data,
+      include: {
+        contacts: true,
+        periods: true,
+      },
     });
 
     return member;
   }
 
   async deleteMember(memberDeleteInput: MemberDeleteInput): Promise<Member> {
-    const { where } = memberDeleteInput;
+    const { id } = memberDeleteInput;
     const member = await this.prisma.member.delete({
-      where,
+      where: { id },
     });
 
     return member;
