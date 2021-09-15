@@ -21,7 +21,7 @@ import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
     PeriodModule,
     NewsModule,
     DeferenceModule,
-    DeferenceImageModule
+    DeferenceImageModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
