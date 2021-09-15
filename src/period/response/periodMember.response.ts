@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { MemberResponse } from 'src/member/response/member.response';
-import { RoleType } from '../enum/roleType.enum';
+import { MemberResponse } from 'member/response/member.response';
+import { RoleType } from '../../member/enum/roleType.enum';
 import { PeriodResponse } from './period.response';
 
 @ObjectType('PeriodMember')

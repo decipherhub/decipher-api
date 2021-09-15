@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { PeriodMemberResponse } from 'src/period/response/periodMember.response';
+import { PeriodMemberResponse } from 'period/response/periodMember.response';
 import { ContactResponse } from './contact.response';
 
 @ObjectType('Member')
