@@ -34,13 +34,13 @@ export class MemberFindManyInput {
 @InputType()
 export class MemberUpdateData {
   @Field({ nullable: true })
-  name?: string;
+  name: string;
 
   @Field({ nullable: true })
-  info?: string;
+  info: string;
 
   @Field({ nullable: true })
-  imageUrl?: string;
+  imageUrl: string;
 
   @Field((_type) => ContactCreateOrConnectInput, {
     nullable: true,
