@@ -10,11 +10,41 @@ type UserResponse {
   token: String!
 }
 
+type Period {
+  id: Int!
+  generation: Float!
+  memberId: [Int!]!
+}
+
+type PeriodMember {
+  id: Int!
+  role: String!
+  member: Member!
+  period: Period!
+}
+
+type Contact {
+  id: Int!
+  ownerId: Int
+  type: String
+  url: String
+}
+
+type Member {
+  id: Int!
+  name: String!
+  info: String!
+  imageUrl: String!
+  contacts: [Contact!]
+  periods: [PeriodMember!]
+}
+
 type Query {
-  sayHello: String!
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
   findUser(data: UserFindInput!): UserResponse
+  member(memberFindByIdInput: MemberFindByIdInput!): Member!
+  members(memberFindManyInput: MemberFindManyInput!): [Member!]!
 }
 
 input UserSigninInput {
@@ -32,12 +62,60 @@ input UserFindInput {
   name: String
 }
 
+input MemberFindByIdInput {
+  id: Int!
+}
+
+input MemberFindManyInput {
+  orderBy: String
+}
+
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
+  createMember(memberCreateInput: MemberCreateInput!): Member!
+  updateMember(memberUpdateInput: MemberUpdateInput!): Member!
+  deleteMember(memberDeleteInput: MemberDeleteInput!): Member!
 }
 
 input UserSignupInput {
   email: String!
   name: String!
   password: String!
+}
+
+input MemberCreateInput {
+  name: String!
+  info: String!
+  imageUrl: String!
+  contacts: ContactCreateOrConnectInput
+}
+
+input ContactCreateOrConnectInput {
+  create: [ContactCreateInput!]
+  connect: [ContactConnectInput!]
+}
+
+input ContactCreateInput {
+  type: String!
+  url: String!
+}
+
+input ContactConnectInput {
+  id: Int!
+}
+
+input MemberUpdateInput {
+  id: Int!
+  data: MemberUpdateData!
+}
+
+input MemberUpdateData {
+  name: String
+  info: String
+  imageUrl: String
+  contacts: ContactCreateOrConnectInput
+}
+
+input MemberDeleteInput {
+  id: Int!
 }
