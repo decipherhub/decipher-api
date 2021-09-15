@@ -27,6 +27,7 @@ model Member {
   imageUrl  String
   contacts  Contact[]
   periods   PeriodMember[]
+  project   ProjectMember[]
 }
 
 model Contact {
@@ -48,10 +49,11 @@ model Period {
   id        Int     @id @default(autoincrement())
   generation Int
   members   PeriodMember[]
+  projects   Project[]
 }
 
 model PeriodMember {
-  role      RoleType
+  role      MemberRoleType
   member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   memberId     Int 
   period   Period @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -59,11 +61,36 @@ model PeriodMember {
   @@id([memberId, periodId])
 }
 
-enum RoleType {
+enum MemberRoleType {
   PRESIDENT
   VICE_PRESIDENT
   MEDIA_LEAD
   MANAGER
   MEMBER
   MENTOR
+}
+
+model Project {
+    id        Int     @id @default(autoincrement())
+    period  Period  @relation(fields: [periodId], references: [id], onDelete: Cascade)
+    periodId  Int
+    name   String
+    link  String
+    summary String
+    imageUrl String
+    members ProjectMember[]
+}
+
+model ProjectMember {
+  role      ProjectRoleType
+  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId     Int 
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId   Int 
+  @@id([memberId, projectId])
+}
+
+enum ProjectRoleType {
+  TEAM_LEADER
+  TEAM_MEMBER
 }
