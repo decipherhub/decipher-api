@@ -1,11 +1,11 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { PeriodMemberResponse } from './periodMember.response';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { PeriodMemberResponse } from 'src/period/response/periodMember.response';
 import { ContactResponse } from './contact.response';
 
 @ObjectType('Member')
 export class MemberResponse {
-  @Field((_type) => ID)
-  id: string;
+  @Field((_type) => Int)
+  id: number;
 
   @Field()
   name: string;
@@ -16,9 +16,9 @@ export class MemberResponse {
   @Field()
   imageUrl: string;
 
-  @Field((_type) => [ContactResponse])
+  @Field((_type) => [ContactResponse], { nullable: true })
   contacts: ContactResponse[];
 
-  @Field((_type) => [PeriodMemberResponse])
+  @Field((_type) => [PeriodMemberResponse], { nullable: true })
   periods: PeriodMemberResponse[];
 }

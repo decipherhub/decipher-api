@@ -1,18 +1,17 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ContactType } from '../enum/contactType.enum';
-import { MemberResponse } from './member.response';
 
-@ObjectType('contact')
+@ObjectType('Contact')
 export class ContactResponse {
-  @Field((_type) => ID)
-  id: string;
+  @Field((_type) => Int)
+  id: number;
 
-  @Field((_type) => MemberResponse)
-  owner: MemberResponse;
+  @Field((_type) => Int, { nullable: true })
+  ownerId: number;
 
-  @Field()
+  @Field((_type) => String, { nullable: true })
   type: ContactType;
 
-  @Field()
+  @Field((_type) => String, { nullable: true })
   url: string;
 }
