@@ -10,6 +10,6 @@ export class DeferenceResponse {
   @Field((type) => Int)
   year: number;
 
-  @Field((type) => [DeferenceImageResponse])
-  deferenceImages: [DeferenceImageResponse];
+  // @Field((type) => [DeferenceImageResponse])
+  // deferenceImages: [DeferenceImageResponse];
 }
