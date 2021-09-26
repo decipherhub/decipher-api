@@ -7,35 +7,35 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialActions"]
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String
   password String
   is_admin Boolean @default(false)
-  salt String @default("")
+  salt     String  @default("")
 }
 
 model Member {
-  id        Int     @id @default(autoincrement())
-  name      String
-  info      String 
-  imageUrl  String
-  contacts  Contact[]
-  periods   PeriodMember[]
-  project   ProjectMember[]
+  id       Int             @id @default(autoincrement())
+  name     String
+  info     String
+  imageUrl String
+  contacts Contact[]
+  periods  PeriodMember[]
+  project  ProjectMember[]
 }
 
 model Contact {
-  id    Int  @id @default(autoincrement())
-  owner Member @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  id      Int      @id @default(autoincrement())
+  owner   Member   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId Int
-  type PageType
-  url   String
+  type    PageType
+  url     String
 }
 
 enum PageType {
@@ -46,18 +46,19 @@ enum PageType {
 }
 
 model Period {
-  id        Int     @id @default(autoincrement())
+  id         Int            @id @default(autoincrement())
   generation Int
-  members   PeriodMember[]
+  members    PeriodMember[]
   projects   Project[]
 }
 
 model PeriodMember {
-  role      MemberRoleType
-  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  memberId     Int 
-  period   Period @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  periodId Int 
+  role     MemberRoleType
+  member   Member         @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId Int
+  period   Period         @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  periodId Int
+
   @@id([memberId, periodId])
 }
 
@@ -71,26 +72,40 @@ enum MemberRoleType {
 }
 
 model Project {
-    id        Int     @id @default(autoincrement())
-    period  Period  @relation(fields: [periodId], references: [id], onDelete: Cascade)
-    periodId  Int
-    name   String
-    link  String
-    summary String
-    imageUrl String
-    members ProjectMember[]
+  id       Int             @id @default(autoincrement())
+  period   Period          @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  periodId Int
+  name     String
+  url     ProjectUrl[]
+  summary  String
+  imageUrl String
+  members  ProjectMember[]
 }
 
 model ProjectMember {
   role      ProjectRoleType
-  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  memberId     Int 
-  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  projectId   Int 
+  member    Member          @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId  Int
+  project   Project         @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId Int
+
   @@id([memberId, projectId])
 }
 
 enum ProjectRoleType {
   TEAM_LEADER
   TEAM_MEMBER
+}
+
+model ProjectUrl {
+  id        Int     @id @default(autoincrement())
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+  type      ProjectUrlType
+  url       String
+}
+
+enum ProjectUrlType {
+  MEDIUM
+  YOUTUBE
 }
