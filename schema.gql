@@ -39,6 +39,28 @@ type Member {
   periods: [PeriodMember!]
 }
 
+type ProjectMember {
+  id: Int!
+  member: Member!
+  project: Project!
+  role: Float!
+}
+
+type Project {
+  id: Int!
+  period: Period!
+  name: String!
+  url: [ProjectUrl!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMember!]!
+}
+
+type ProjectUrl {
+  type: String!
+  url: String!
+}
+
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
@@ -46,6 +68,8 @@ type Query {
   member(memberFindByIdInput: MemberFindByIdInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
+  project(projectUniqueInput: ProjectUniqueInput!): Project!
+  projects(projectFindManyInput: ProjectFindManyInput!): [Project!]!
 }
 
 input UserSigninInput {
@@ -76,6 +100,14 @@ input PeriodFindInput {
   generation: Int
 }
 
+input ProjectUniqueInput {
+  id: Int!
+}
+
+input ProjectFindManyInput {
+  orderBy: String
+}
+
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
   createMember(memberCreateInput: MemberCreateInput!): Member!
@@ -85,6 +117,9 @@ type Mutation {
   createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
+  createProject(projectCreateInput: ProjectCreateInput!): Project!
+  updateProject(projectUpdateInput: ProjectUpdateInput!): Project!
+  deleteProject(projectUniqueInput: ProjectUniqueInput!): Project!
 }
 
 input UserSignupInput {
@@ -143,4 +178,33 @@ input PeriodMemberCreateOrUpdateInput {
 input PeriodMemberUniqueInput {
   memberId: Int!
   periodId: Int!
+}
+
+input ProjectCreateInput {
+  name: String!
+  period: Int!
+  url: [ProjectUrlInput!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMemberInput!]!
+}
+
+input ProjectUrlInput {
+  type: String!
+  url: String!
+}
+
+input ProjectMemberInput {
+  role: String!
+  memberId: Int!
+}
+
+input ProjectUpdateInput {
+  id: Int!
+  name: String
+  period: Int
+  summary: String
+  imageUrl: String
+  members: [ProjectMemberInput!]
+  url: [ProjectUrlInput!]
 }
