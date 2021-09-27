@@ -1,0 +1,4 @@
+enum ProjectUrlType {
+  MEDIUM,
+  YOUTUBE,
+}
