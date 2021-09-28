@@ -94,3 +94,28 @@ model Deference {
   year              Int       
   deferenceImage    DeferenceImage[]  
 }
+
+model Medium {
+    id                Int               @id @default(autoincrement())
+title String
+  member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
+  memberId  Int    
+  url String
+  imageUrl String
+  summary String
+  tags MediumTag[]
+}
+
+model MediumTag {
+  medium       Medium    @relation(fields: [mediumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediumId     Int 
+  tag  Tag @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tagId Int 
+  @@id([mediumId, tagId])
+}
+
+model Tag {
+    id                Int               @id @default(autoincrement())
+    name String
+    mediums Medium[]
+}
