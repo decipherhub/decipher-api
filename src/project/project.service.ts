@@ -19,7 +19,6 @@ export class ProjectService {
     const periodGen = await this.prisma.period.findUnique({
       where: { id: period },
     });
-
     const project = await this.prisma.project.create({
       data: {
         name,
@@ -27,13 +26,16 @@ export class ProjectService {
         imageUrl,
         url: { createMany: { data: url } },
         members: {
-          createMany: { data: members },
+          createMany: {
+            data: members,
+          },
         },
         period: { connect: { id: periodGen.id } },
       },
       include: {
         members: true,
         url: true,
+        period: true,
       },
     });
 
@@ -65,6 +67,7 @@ export class ProjectService {
       include: {
         members: true,
         url: true,
+        period: true,
       },
     });
 
@@ -77,18 +80,18 @@ export class ProjectService {
     const { id, name, period, summary, imageUrl, members, url } =
       projectUpdateInput;
 
-    // TODO : update members and url
+    // TODO : update members and url, period
     const project = await this.prisma.project.update({
       where: { id },
       data: {
         name,
-        period: { connect: { id: period } },
         summary,
         imageUrl,
       },
       include: {
         members: true,
         url: true,
+        period: true,
       },
     });
 
