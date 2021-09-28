@@ -1,6 +1,6 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
-import { CreateDeferenceInput, UpdateDeferenceInput } from './deference.input';
-import { DeferenceResponse } from './deference.response';
+import { CreateDeferenceInput, UpdateDeferenceInput } from './input/deference.input';
+import { DeferenceResponse } from './response/deference.response';
 import { DeferenceService } from './deference.service';
 
 @Resolver((of) => DeferenceResponse)
