@@ -7,35 +7,36 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialActions"]
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String
   password String
   is_admin Boolean @default(false)
-  salt String @default("")
+  salt     String  @default("")
 }
 
 model Member {
-  id        Int     @id @default(autoincrement())
-  name      String
-  info      String 
-  imageUrl  String
-  contacts  Contact[]
-  periods   PeriodMember[]
-  news      News[]                                                          // fields used to generate Prisma Client
+  id       Int            @id @default(autoincrement())
+  name     String
+  info     String
+  imageUrl String
+  contacts Contact[]
+  periods  PeriodMember[]
+  news     News[] // fields used to generate Prisma Client
+  Medium   Medium[]
 }
 
 model Contact {
-  id    Int  @id @default(autoincrement())
-  owner Member @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  id      Int      @id @default(autoincrement())
+  owner   Member   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId Int
-  type PageType
-  url   String
+  type    PageType
+  url     String
 }
 
 enum PageType {
@@ -46,17 +47,18 @@ enum PageType {
 }
 
 model Period {
-  id        Int     @id @default(autoincrement())
+  id         Int            @id @default(autoincrement())
   generation Int
-  members   PeriodMember[]
+  members    PeriodMember[]
 }
 
 model PeriodMember {
-  role      RoleType
-  member       Member     @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  memberId     Int 
-  period   Period @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  periodId Int 
+  role     RoleType
+  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId Int
+  period   Period   @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  periodId Int
+
   @@id([memberId, periodId])
 }
 
@@ -70,52 +72,53 @@ enum RoleType {
 }
 
 model News {
-  id        Int       @id @default(autoincrement())
-  title     String
-  member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
-  memberId  Int                                                             // foreign key in database
-  datetime  DateTime  @default(now())
-  summary   String
-  link      String
-  image_url  String
+  id           Int      @id @default(autoincrement())
+  title        String
+  member       Member   @relation(fields: [memberId], references: [id]) // fields used to generate Prisma Client
+  memberId     Int // foreign key in database
+  datetime     DateTime @default(now())
+  summary      String
+  link         String
+  image_url    String
   is_disclosed Boolean
 }
 
 model DeferenceImage {
-  id                Int               @id @default(autoincrement())
-  type              String
-  image_url         String
-  deference         Deference         @relation(fields: [deferenceId], references: [id])
-  deferenceId       Int
+  id          Int       @id @default(autoincrement())
+  type        String
+  image_url   String
+  deference   Deference @relation(fields: [deferenceId], references: [id])
+  deferenceId Int
 }
 
 model Deference {
-  id                Int               @id @default(autoincrement())
-  year              Int       
-  deferenceImage    DeferenceImage[]  
+  id             Int              @id @default(autoincrement())
+  year           Int
+  deferenceImage DeferenceImage[]
 }
 
 model Medium {
-    id                Int               @id @default(autoincrement())
-title String
-  member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
-  memberId  Int    
-  url String
+  id       Int         @id @default(autoincrement())
+  title    String
+  member   Member      @relation(fields: [memberId], references: [id]) // fields used to generate Prisma Client
+  memberId Int
+  url      String
   imageUrl String
-  summary String
-  tags MediumTag[]
+  summary  String
+  tags     MediumTag[]
 }
 
 model MediumTag {
-  medium       Medium    @relation(fields: [mediumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediumId     Int 
-  tag  Tag @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  tagId Int 
+  medium   Medium @relation(fields: [mediumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediumId Int
+  tag      Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tagId    Int
+
   @@id([mediumId, tagId])
 }
 
 model Tag {
-    id                Int               @id @default(autoincrement())
-    name String
-    mediums Medium[]
+  id        Int         @id @default(autoincrement())
+  name      String
+  mediums MediumTag[]
 }
