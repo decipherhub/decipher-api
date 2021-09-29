@@ -21,14 +21,14 @@ model User {
 }
 
 model Member {
-  id       Int            @id @default(autoincrement())
-  name     String
-  info     String
-  imageUrl String
-  contacts Contact[]
-  periods  PeriodMember[]
-  news     News[] // fields used to generate Prisma Client
-  Medium   Medium[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  info         String
+  imageUrl     String
+  contacts     Contact[]
+  periods      PeriodMember[]
+  news         News[] // fields used to generate Prisma Client
+  mediums      MediumMember[]
 }
 
 model Contact {
@@ -98,14 +98,13 @@ model Deference {
 }
 
 model Medium {
-  id       Int         @id @default(autoincrement())
-  title    String
-  member   Member      @relation(fields: [memberId], references: [id]) // fields used to generate Prisma Client
-  memberId Int
-  url      String
-  imageUrl String
-  summary  String
-  tags     MediumTag[]
+  id           Int            @id @default(autoincrement())
+  title        String
+  authors      MediumMember[]
+  url          String
+  imageUrl     String
+  summary      String
+  tags         MediumTag[]
 }
 
 model MediumTag {
@@ -118,7 +117,16 @@ model MediumTag {
 }
 
 model Tag {
-  id        Int         @id @default(autoincrement())
-  name      String
+  id      Int         @id @default(autoincrement())
+  name    String
   mediums MediumTag[]
+}
+
+model MediumMember {
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId Int
+  medium   Medium @relation(fields: [mediumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediumId Int
+
+  @@id([memberId, mediumId])
 }
