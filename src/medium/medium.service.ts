@@ -77,7 +77,7 @@ export class MediumService {
       take: offset,
       where: {
         tags: {
-          every: {
+          some: {
             tagId,
           },
         },
