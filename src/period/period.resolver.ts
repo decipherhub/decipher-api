@@ -1,8 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Period, PeriodMember } from '@prisma/client';
-import { PeriodFindInput, PeriodGenerationInput } from './input/period.input';
+import { PeriodFindInput, PeriodInput } from './input/period.input';
 import {
-  PeriodMemberCreateOrUpdateInput,
+  PeriodMemberInput,
   PeriodMemberUniqueInput,
 } from './input/periodMember.input';
 import { PeriodService } from './period.service';
@@ -21,16 +21,14 @@ export class PeriodResolver {
   }
 
   @Mutation((_returns) => PeriodResponse)
-  createPeriod(
-    @Args('periodGenerationInput') periodGenerationInput: PeriodGenerationInput,
-  ): Promise<Period> {
-    return this.periodService.createPeriod(periodGenerationInput);
+  createPeriod(@Args('periodInput') periodInput: PeriodInput): Promise<Period> {
+    return this.periodService.createPeriod(periodInput);
   }
 
   @Mutation((_returns) => PeriodMemberResponse)
   createPeriodMember(
     @Args('periodMemberCreateInput')
-    periodMemberCreateInput: PeriodMemberCreateOrUpdateInput,
+    periodMemberCreateInput: PeriodMemberInput,
   ): Promise<PeriodMember> {
     return this.periodService.createPeriodMember(periodMemberCreateInput);
   }
@@ -38,7 +36,7 @@ export class PeriodResolver {
   @Mutation((_returns) => PeriodMemberResponse)
   updatePeriodMember(
     @Args('periodMemberUpdateInput')
-    periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput,
+    periodMemberUpdateInput: PeriodMemberInput,
   ): Promise<PeriodMember> {
     return this.periodService.updatePeriodMember(periodMemberUpdateInput);
   }

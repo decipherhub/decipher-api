@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class PeriodGenerationInput {
+export class PeriodInput {
   @Field((_type) => Int)
   generation: number;
 }

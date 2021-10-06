@@ -10,6 +10,22 @@ type UserResponse {
   token: String!
 }
 
+type NewsResponse {
+  id: Int!
+  title: String!
+  member: Member!
+  datetime: DateTime!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Period {
   id: Int!
   generation: Float!
@@ -35,9 +51,11 @@ type Member {
   name: String!
   info: String!
   imageUrl: String!
+  news: [NewsResponse!]
   contacts: [Contact!]
   periods: [PeriodMember!]
 }
+
 
 type ProjectMember {
   id: Int!
@@ -59,17 +77,66 @@ type Project {
 type ProjectUrl {
   type: String!
   url: String!
+
+type DeferenceImageResponse {
+  id: Int!
+  type: String!
+  image_url: String!
+  deference: DeferenceResponse!
+}
+
+type DeferenceResponse {
+  id: Int!
+  year: Int!
+  deferenceImages: [DeferenceImageResponse!]
+}
+
+type MediumMember {
+  member: Member
+  medium: Medium
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  mediums: [MediumTag!]!
+}
+
+type MediumTag {
+  id: Int!
+  tag: Tag
+  medium: Medium
+}
+
+type Medium {
+  id: Int!
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  authors: [MediumMember!]!
+  tags: [MediumTag!]!
+
 }
 
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
   findUser(data: UserFindInput!): UserResponse
-  member(memberFindByIdInput: MemberFindByIdInput!): Member!
+  member(memberUniqueInput: MemberUniqueInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
   project(projectUniqueInput: ProjectUniqueInput!): Project!
   projects(projectFindManyInput: ProjectFindManyInput!): [Project!]!
+  getNewsById(id: Float!): NewsResponse
+  getAllNews: [NewsResponse!]!
+  getDeferenceById(id: Float!): DeferenceResponse
+  getDeferences: [DeferenceResponse!]!
+  getDeferenceImageById(id: Float!): DeferenceImageResponse
+  getDeferenceImages: [DeferenceImageResponse!]!
+  medium(mediumFindByIdInput: MediumUniqueInput!): Medium!
+  mediums(mediumFindManyInput: MediumFindManyInput!): [Medium!]!
+  tags: [Tag!]!
 }
 
 input UserSigninInput {
@@ -87,12 +154,13 @@ input UserFindInput {
   name: String
 }
 
-input MemberFindByIdInput {
+input MemberUniqueInput {
   id: Int!
 }
 
 input MemberFindManyInput {
   orderBy: String
+  periodId: Int
 }
 
 input PeriodFindInput {
@@ -100,26 +168,49 @@ input PeriodFindInput {
   generation: Int
 }
 
+
 input ProjectUniqueInput {
   id: Int!
 }
 
 input ProjectFindManyInput {
   orderBy: String
+
+input MediumUniqueInput {
+  id: Int!
+}
+
+input MediumFindManyInput {
+  tagId: Int
+  offset: Int
+  page: Int
 }
 
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
-  createMember(memberCreateInput: MemberCreateInput!): Member!
+  createMember(memberInput: MemberInput!): Member!
   updateMember(memberUpdateInput: MemberUpdateInput!): Member!
-  deleteMember(memberDeleteInput: MemberDeleteInput!): Member!
-  createPeriod(periodGenerationInput: PeriodGenerationInput!): Period!
-  createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
-  updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
+  deleteMember(memberUniqueInput: MemberUniqueInput!): Member!
+  createPeriod(periodInput: PeriodInput!): Period!
+  createPeriodMember(periodMemberCreateInput: PeriodMemberInput!): PeriodMember!
+  updatePeriodMember(periodMemberUpdateInput: PeriodMemberInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
   createProject(projectInput: ProjectInput!): Project!
   updateProject(projectUpdateInput: ProjectUpdateInput!): Project!
   deleteProject(projectUniqueInput: ProjectUniqueInput!): Project!
+  createNews(createNewsInput: CreateNewsInput!): NewsResponse!
+  updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
+  deleteNews(id: Float!): NewsResponse!
+  createDeference(createDeferenceInput: CreateDeferenceInput!): DeferenceResponse!
+  updateDeference(updateDeferenceInput: UpdateDeferenceInput!): DeferenceResponse!
+  deleteDeference(id: Float!): DeferenceResponse!
+  createDeferenceImage(createDeferenceInput: CreateDeferenceImageInput!): DeferenceImageResponse!
+  updateDeferenceImage(updateDeferenceInput: UpdateDeferenceImageInput!): DeferenceImageResponse!
+  deleteDeferenceImage(id: Float!): DeferenceImageResponse!
+  createTag(tagCreateInput: TagCreateInput!): Tag!
+  createMedium(mediumCreateInput: MediumInput!): Medium!
+  updateMedium(mediumUpdateInput: MediumUpdateInput!): Medium!
+  deleteMedium(mediumDeleteInput: MediumUniqueInput!): Medium!
 }
 
 input UserSignupInput {
@@ -128,56 +219,96 @@ input UserSignupInput {
   password: String!
 }
 
-input MemberCreateInput {
+input MemberInput {
   name: String!
   info: String!
   imageUrl: String!
-  contacts: ContactCreateOrConnectInput
+  contacts: [ContactInput!]
+  periods: [PeriodMemberInput!]
 }
 
-input ContactCreateOrConnectInput {
-  create: [ContactCreateInput!]
-  connect: [ContactConnectInput!]
-}
-
-input ContactCreateInput {
+input ContactInput {
   type: String!
   url: String!
 }
 
-input ContactConnectInput {
-  id: Int!
+input PeriodMemberInput {
+  role: String!
+  memberId: Int
+  periodId: Int
 }
 
 input MemberUpdateInput {
   id: Int!
-  data: MemberUpdateData!
+  data: MemberInput!
 }
 
-input MemberUpdateData {
-  name: String
-  info: String
-  imageUrl: String
-  contacts: ContactCreateOrConnectInput
-}
-
-input MemberDeleteInput {
-  id: Int!
-}
-
-input PeriodGenerationInput {
+input PeriodInput {
   generation: Int!
-}
-
-input PeriodMemberCreateOrUpdateInput {
-  role: String!
-  memberId: Int!
-  periodId: Int!
 }
 
 input PeriodMemberUniqueInput {
   memberId: Int!
   periodId: Int!
+}
+
+input CreateNewsInput {
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+input UpdateNewsInput {
+  id: Int!
+  title: String!
+  memberId: Int!
+  summary: String!
+  link: String!
+  image_url: String!
+  is_disclosed: Boolean!
+}
+
+input CreateDeferenceInput {
+  year: Int!
+}
+
+input UpdateDeferenceInput {
+  id: Int!
+  year: Int!
+}
+
+input CreateDeferenceImageInput {
+  type: String!
+  image_url: String!
+  deferenceId: Int!
+}
+
+input UpdateDeferenceImageInput {
+  id: Int!
+  type: String!
+  image_url: String!
+  deferenceId: Int!
+}
+
+input TagCreateInput {
+  name: String!
+}
+
+input MediumInput {
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  memberIds: [Int!]!
+  tagIds: [Int!]!
+}
+
+input MediumUpdateInput {
+  id: Int!
+  data: MediumInput!
 }
 
 input ProjectInput {
