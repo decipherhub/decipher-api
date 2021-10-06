@@ -35,7 +35,6 @@ export class MemberUniqueInput {
 export class MemberFindManyInput {
   @Field((_type) => String, { nullable: true })
   orderBy: Prisma.MemberOrderByInput;
-}
 
   @Field((_type) => Int, { nullable: true })
   periodId: number;
