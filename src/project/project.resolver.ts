@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
-  ProjectCreateInput,
+  ProjectInput,
   ProjectFindManyInput,
   ProjectUniqueInput,
   ProjectUpdateInput,
@@ -24,10 +24,8 @@ export class ProjectResolver {
   }
 
   @Mutation((_returns) => ProjectResponse)
-  createProject(
-    @Args('projectCreateInput') projectCreateInput: ProjectCreateInput,
-  ) {
-    return this.projectService.createProject(projectCreateInput);
+  createProject(@Args('projectInput') projectInput: ProjectInput) {
+    return this.projectService.createProject(projectInput);
   }
 
   @Mutation((_returns) => ProjectResponse)

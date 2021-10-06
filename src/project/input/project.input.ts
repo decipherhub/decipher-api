@@ -4,12 +4,12 @@ import { Prisma } from '@prisma/client';
 import { ProjectMemberInput } from './projectMember.input';
 
 @InputType()
-export class ProjectCreateInput {
+export class ProjectInput {
   @Field((_type) => String)
   name: string;
 
   @Field((_type) => Int)
-  period: number;
+  periodId: number;
 
   @Field((_type) => [ProjectUrlInput])
   url: ProjectUrlInput[];
@@ -44,23 +44,8 @@ export class ProjectUpdateInput {
   @Field((_type) => Int)
   id: number;
 
-  @Field((_type) => String, { nullable: true })
-  name: string;
-
-  @Field((_type) => Int, { nullable: true })
-  period: number;
-
-  @Field((_type) => String, { nullable: true })
-  summary: string;
-
-  @Field((_type) => String, { nullable: true })
-  imageUrl: string;
-
-  @Field((_type) => [ProjectMemberInput], { nullable: true })
-  members: ProjectMemberInput[];
-
-  @Field((_type) => [ProjectUrlInput], { nullable: true })
-  url: ProjectUrlInput[];
+  @Field((_type) => ProjectInput, { nullable: true })
+  data: ProjectInput;
 }
 
 @InputType()
