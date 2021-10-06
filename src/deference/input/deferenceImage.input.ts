@@ -10,16 +10,13 @@ export class CreateDeferenceImageInput {
 }
 
 @InputType()
-export class ConnectDeferenceImageInput {
+export class UpdateDeferenceImageInput {
   @Field((type) => Int)
   id: number;
-}
 
-@InputType()
-export class CreateOrConnectDeferenceImageInput {
-  @Field((type) => [CreateDeferenceImageInput], { nullable: true })
-  create: CreateDeferenceImageInput[];
+  @Field()
+  type: string;
 
-  @Field((type) => [ConnectDeferenceImageInput], { nullable: true})
-  connect: ConnectDeferenceImageInput[];
+  @Field()
+  image_url: string;
 }

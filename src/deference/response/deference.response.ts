@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { DeferenceImageResponse } from 'deference/response/deferenceImage.response';
 
@@ -11,5 +10,5 @@ export class DeferenceResponse {
   year: number;
 
   @Field((type) => [DeferenceImageResponse], { nullable: true })
-  deferenceImages: DeferenceImageResponse[];
+  deferenceImage: DeferenceImageResponse[];
 }

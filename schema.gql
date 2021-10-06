@@ -60,13 +60,12 @@ type DeferenceImageResponse {
   id: Int!
   type: String!
   image_url: String!
-  deference: DeferenceResponse!
 }
 
 type DeferenceResponse {
   id: Int!
   year: Int!
-  deferenceImages: [DeferenceImageResponse!]
+  deferenceImage: [DeferenceImageResponse!]
 }
 
 type Query {
@@ -80,8 +79,6 @@ type Query {
   getAllNews: [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
-  getDeferenceImageById(id: Float!): DeferenceImageResponse
-  getDeferenceImages: [DeferenceImageResponse!]!
 }
 
 input UserSigninInput {
@@ -127,9 +124,6 @@ type Mutation {
   createDeference(createDeferenceInput: CreateDeferenceInput!): DeferenceResponse!
   updateDeference(updateDeferenceInput: UpdateDeferenceInput!): DeferenceResponse!
   deleteDeference(id: Float!): DeferenceResponse!
-  createDeferenceImage(createDeferenceInput: CreateDeferenceImageInput!): DeferenceImageResponse!
-  updateDeferenceImage(updateDeferenceInput: UpdateDeferenceImageInput!): DeferenceImageResponse!
-  deleteDeferenceImage(id: Float!): DeferenceImageResponse!
 }
 
 input UserSignupInput {
@@ -211,23 +205,22 @@ input UpdateNewsInput {
 
 input CreateDeferenceInput {
   year: Int!
-  image: String!
-}
-
-input UpdateDeferenceInput {
-  id: Int!
-  year: Int!
+  deferenceImage: [CreateDeferenceImageInput!]
 }
 
 input CreateDeferenceImageInput {
   type: String!
   image_url: String!
-  deferenceId: Int!
+}
+
+input UpdateDeferenceInput {
+  id: Int!
+  year: Int!
+  deferenceImage: UpdateDeferenceImageInput
 }
 
 input UpdateDeferenceImageInput {
   id: Int!
   type: String!
   image_url: String!
-  deferenceId: Int!
 }
