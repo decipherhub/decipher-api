@@ -21,13 +21,14 @@ model User {
 }
 
 model Member {
-  id           Int            @id @default(autoincrement())
-  name         String
-  info         String
-  imageUrl     String
-  contacts     Contact[]
-  periods      PeriodMember[]
-  news         News[] // fields used to generate Prisma Client
+  id       Int             @id @default(autoincrement())
+  name     String
+  info     String
+  imageUrl String
+  contacts Contact[]
+  periods  PeriodMember[]
+  project  ProjectMember[]
+  news         News[] 
   mediums      MediumMember[]
 }
 
@@ -50,25 +51,65 @@ model Period {
   id         Int            @id @default(autoincrement())
   generation Int
   members    PeriodMember[]
+  projects   Project[]
 }
 
 model PeriodMember {
-  role     RoleType
-  member   Member   @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role     MemberRoleType
+  member   Member         @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   memberId Int
-  period   Period   @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  period   Period         @relation(fields: [periodId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   periodId Int
 
   @@id([memberId, periodId])
 }
 
-enum RoleType {
+enum MemberRoleType {
   PRESIDENT
   VICE_PRESIDENT
   MEDIA_LEAD
   MANAGER
   MEMBER
   MENTOR
+}
+
+model Project {
+  id       Int             @id @default(autoincrement())
+  period   Period          @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  periodId Int
+  name     String
+  url     ProjectUrl[]
+  summary  String
+  imageUrl String
+  members  ProjectMember[]
+}
+
+model ProjectMember {
+  role      ProjectRoleType
+  member    Member          @relation(fields: [memberId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  memberId  Int
+  project   Project         @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId Int
+
+  @@id([memberId, projectId])
+}
+
+enum ProjectRoleType {
+  TEAM_LEADER
+  TEAM_MEMBER
+}
+
+model ProjectUrl {
+  id        Int     @id @default(autoincrement())
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId Int
+  type      ProjectUrlType
+  url       String
+}
+
+enum ProjectUrlType {
+  MEDIUM
+  YOUTUBE
 }
 
 model News {
@@ -130,3 +171,4 @@ model MediumMember {
 
   @@id([memberId, mediumId])
 }
+

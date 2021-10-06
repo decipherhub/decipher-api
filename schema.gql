@@ -56,6 +56,28 @@ type Member {
   periods: [PeriodMember!]
 }
 
+
+type ProjectMember {
+  id: Int!
+  member: Member!
+  project: Project!
+  role: Float!
+}
+
+type Project {
+  id: Int!
+  period: Period!
+  name: String!
+  url: [ProjectUrl!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMember!]!
+}
+
+type ProjectUrl {
+  type: String!
+  url: String!
+
 type DeferenceImageResponse {
   id: Int!
   type: String!
@@ -94,6 +116,7 @@ type Medium {
   summary: String!
   authors: [MediumMember!]!
   tags: [MediumTag!]!
+
 }
 
 type Query {
@@ -103,6 +126,8 @@ type Query {
   member(memberUniqueInput: MemberUniqueInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
+  project(projectUniqueInput: ProjectUniqueInput!): Project!
+  projects(projectFindManyInput: ProjectFindManyInput!): [Project!]!
   getNewsById(id: Float!): NewsResponse
   getAllNews: [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
@@ -143,6 +168,14 @@ input PeriodFindInput {
   generation: Int
 }
 
+
+input ProjectUniqueInput {
+  id: Int!
+}
+
+input ProjectFindManyInput {
+  orderBy: String
+
 input MediumUniqueInput {
   id: Int!
 }
@@ -162,6 +195,9 @@ type Mutation {
   createPeriodMember(periodMemberCreateInput: PeriodMemberInput!): PeriodMember!
   updatePeriodMember(periodMemberUpdateInput: PeriodMemberInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
+  createProject(projectInput: ProjectInput!): Project!
+  updateProject(projectUpdateInput: ProjectUpdateInput!): Project!
+  deleteProject(projectUniqueInput: ProjectUniqueInput!): Project!
   createNews(createNewsInput: CreateNewsInput!): NewsResponse!
   updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
   deleteNews(id: Float!): NewsResponse!
@@ -273,4 +309,28 @@ input MediumInput {
 input MediumUpdateInput {
   id: Int!
   data: MediumInput!
+}
+
+input ProjectInput {
+  name: String!
+  periodId: Int!
+  url: [ProjectUrlInput!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMemberInput!]!
+}
+
+input ProjectUrlInput {
+  type: String!
+  url: String!
+}
+
+input ProjectMemberInput {
+  role: String!
+  memberId: Int!
+}
+
+input ProjectUpdateInput {
+  id: Int!
+  data: ProjectInput
 }
