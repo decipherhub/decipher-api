@@ -117,7 +117,7 @@ type Mutation {
   createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
-  createProject(projectCreateInput: ProjectCreateInput!): Project!
+  createProject(projectInput: ProjectInput!): Project!
   updateProject(projectUpdateInput: ProjectUpdateInput!): Project!
   deleteProject(projectUniqueInput: ProjectUniqueInput!): Project!
 }
@@ -180,9 +180,9 @@ input PeriodMemberUniqueInput {
   periodId: Int!
 }
 
-input ProjectCreateInput {
+input ProjectInput {
   name: String!
-  period: Int!
+  periodId: Int!
   url: [ProjectUrlInput!]!
   summary: String!
   imageUrl: String!
@@ -201,10 +201,5 @@ input ProjectMemberInput {
 
 input ProjectUpdateInput {
   id: Int!
-  name: String
-  period: Int
-  summary: String
-  imageUrl: String
-  members: [ProjectMemberInput!]
-  url: [ProjectUrlInput!]
+  data: ProjectInput
 }
