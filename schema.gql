@@ -69,6 +69,33 @@ type DeferenceResponse {
   deferenceImages: [DeferenceImageResponse!]
 }
 
+type MediumMember {
+  member: Member
+  medium: Medium
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  mediums: [MediumTag!]!
+}
+
+type MediumTag {
+  id: Int!
+  tag: Tag
+  medium: Medium
+}
+
+type Medium {
+  id: Int!
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  authors: [MediumMember!]!
+  tags: [MediumTag!]!
+}
+
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
@@ -82,6 +109,9 @@ type Query {
   getDeferences: [DeferenceResponse!]!
   getDeferenceImageById(id: Float!): DeferenceImageResponse
   getDeferenceImages: [DeferenceImageResponse!]!
+  medium(mediumFindByIdInput: MediumUniqueInput!): Medium!
+  mediums(mediumFindManyInput: MediumFindManyInput!): [Medium!]!
+  tags: [Tag!]!
 }
 
 input UserSigninInput {
@@ -112,6 +142,16 @@ input PeriodFindInput {
   generation: Int
 }
 
+input MediumUniqueInput {
+  id: Int!
+}
+
+input MediumFindManyInput {
+  tagId: Int
+  offset: Int
+  page: Int
+}
+
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
   createMember(memberCreateInput: MemberCreateInput!): Member!
@@ -130,6 +170,10 @@ type Mutation {
   createDeferenceImage(createDeferenceInput: CreateDeferenceImageInput!): DeferenceImageResponse!
   updateDeferenceImage(updateDeferenceInput: UpdateDeferenceImageInput!): DeferenceImageResponse!
   deleteDeferenceImage(id: Float!): DeferenceImageResponse!
+  createTag(tagCreateInput: TagCreateInput!): Tag!
+  createMedium(mediumCreateInput: MediumInput!): Medium!
+  updateMedium(mediumUpdateInput: MediumUpdateInput!): Medium!
+  deleteMedium(mediumDeleteInput: MediumUniqueInput!): Medium!
 }
 
 input UserSignupInput {
@@ -211,7 +255,6 @@ input UpdateNewsInput {
 
 input CreateDeferenceInput {
   year: Int!
-  image: String!
 }
 
 input UpdateDeferenceInput {
@@ -230,4 +273,22 @@ input UpdateDeferenceImageInput {
   type: String!
   image_url: String!
   deferenceId: Int!
+}
+
+input TagCreateInput {
+  name: String!
+}
+
+input MediumInput {
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  memberIds: [Int!]!
+  tagIds: [Int!]!
+}
+
+input MediumUpdateInput {
+  id: Int!
+  data: MediumInput!
 }
