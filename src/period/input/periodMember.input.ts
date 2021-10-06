@@ -2,14 +2,14 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { RoleType } from 'member/enum/roleType.enum';
 
 @InputType()
-export class PeriodMemberCreateOrUpdateInput {
+export class PeriodMemberInput {
   @Field((_type) => String)
   role: RoleType;
 
-  @Field((_type) => Int)
+  @Field((_type) => Int, { nullable: true })
   memberId: number;
 
-  @Field((_type) => Int)
+  @Field((_type) => Int, { nullable: true })
   periodId: number;
 }
 

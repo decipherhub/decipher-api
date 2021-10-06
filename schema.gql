@@ -73,7 +73,7 @@ type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
   findUser(data: UserFindInput!): UserResponse
-  member(memberFindByIdInput: MemberFindByIdInput!): Member!
+  member(memberUniqueInput: MemberUniqueInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
   getNewsById(id: Float!): NewsResponse
@@ -99,12 +99,13 @@ input UserFindInput {
   name: String
 }
 
-input MemberFindByIdInput {
+input MemberUniqueInput {
   id: Int!
 }
 
 input MemberFindManyInput {
   orderBy: String
+  periodId: Int
 }
 
 input PeriodFindInput {
@@ -114,12 +115,12 @@ input PeriodFindInput {
 
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
-  createMember(memberCreateInput: MemberCreateInput!): Member!
+  createMember(memberInput: MemberInput!): Member!
   updateMember(memberUpdateInput: MemberUpdateInput!): Member!
-  deleteMember(memberDeleteInput: MemberDeleteInput!): Member!
-  createPeriod(periodGenerationInput: PeriodGenerationInput!): Period!
-  createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
-  updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
+  deleteMember(memberUniqueInput: MemberUniqueInput!): Member!
+  createPeriod(periodInput: PeriodInput!): Period!
+  createPeriodMember(periodMemberCreateInput: PeriodMemberInput!): PeriodMember!
+  updatePeriodMember(periodMemberUpdateInput: PeriodMemberInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
   createNews(createNewsInput: CreateNewsInput!): NewsResponse!
   updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
@@ -138,51 +139,32 @@ input UserSignupInput {
   password: String!
 }
 
-input MemberCreateInput {
+input MemberInput {
   name: String!
   info: String!
   imageUrl: String!
-  contacts: ContactCreateOrConnectInput
+  contacts: [ContactInput!]
+  periods: [PeriodMemberInput!]
 }
 
-input ContactCreateOrConnectInput {
-  create: [ContactCreateInput!]
-  connect: [ContactConnectInput!]
-}
-
-input ContactCreateInput {
+input ContactInput {
   type: String!
   url: String!
 }
 
-input ContactConnectInput {
-  id: Int!
+input PeriodMemberInput {
+  role: String!
+  memberId: Int
+  periodId: Int
 }
 
 input MemberUpdateInput {
   id: Int!
-  data: MemberUpdateData!
+  data: MemberInput!
 }
 
-input MemberUpdateData {
-  name: String
-  info: String
-  imageUrl: String
-  contacts: ContactCreateOrConnectInput
-}
-
-input MemberDeleteInput {
-  id: Int!
-}
-
-input PeriodGenerationInput {
+input PeriodInput {
   generation: Int!
-}
-
-input PeriodMemberCreateOrUpdateInput {
-  role: String!
-  memberId: Int!
-  periodId: Int!
 }
 
 input PeriodMemberUniqueInput {
@@ -211,7 +193,6 @@ input UpdateNewsInput {
 
 input CreateDeferenceInput {
   year: Int!
-  image: String!
 }
 
 input UpdateDeferenceInput {
