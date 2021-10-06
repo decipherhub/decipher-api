@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { MediumResponse } from './medium.response';
+import { MediumTagResponse } from './mediumTag.response';
 
 @ObjectType('Tag')
 export class TagResponse {
@@ -9,6 +9,6 @@ export class TagResponse {
   @Field((_type) => String)
   name: string;
 
-  @Field((_type) => [MediumResponse])
-  mediums: MediumResponse[];
+  @Field((_type) => [MediumTagResponse])
+  mediums: MediumTagResponse[];
 }
