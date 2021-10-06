@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient, Project } from '@prisma/client';
 import {
-  ProjectCreateInput,
+  ProjectInput,
   ProjectFindManyInput,
   ProjectUniqueInput,
   ProjectUpdateInput,
@@ -10,15 +10,9 @@ import {
 export class ProjectService {
   constructor(private prisma: PrismaClient) {}
 
-  async createProject(
-    projectCreateInput: ProjectCreateInput,
-  ): Promise<Project> {
-    const { name, period, url, summary, imageUrl, members } =
-      projectCreateInput;
+  async createProject(projectInput: ProjectInput): Promise<Project> {
+    const { name, periodId, url, summary, imageUrl, members } = projectInput;
 
-    const periodGen = await this.prisma.period.findUnique({
-      where: { id: period },
-    });
     const project = await this.prisma.project.create({
       data: {
         name,
@@ -30,10 +24,15 @@ export class ProjectService {
             data: members,
           },
         },
-        period: { connect: { id: periodGen.id } },
+        period: { connect: { id: periodId } },
       },
       include: {
-        members: true,
+        members: {
+          select: {
+            project: true,
+            member: true,
+          },
+        },
         url: true,
         period: true,
       },
@@ -49,8 +48,14 @@ export class ProjectService {
     const project = await this.prisma.project.findUnique({
       where: { id },
       include: {
-        members: true,
+        members: {
+          select: {
+            project: true,
+            member: true,
+          },
+        },
         url: true,
+        period: true,
       },
       rejectOnNotFound: true,
     });
@@ -65,7 +70,12 @@ export class ProjectService {
     const project = await this.prisma.project.findMany({
       orderBy,
       include: {
-        members: true,
+        members: {
+          select: {
+            project: true,
+            member: true,
+          },
+        },
         url: true,
         period: true,
       },
@@ -77,19 +87,36 @@ export class ProjectService {
   async updateProject(
     projectUpdateInput: ProjectUpdateInput,
   ): Promise<Project> {
-    const { id, name, period, summary, imageUrl, members, url } =
-      projectUpdateInput;
+    const { id, data } = projectUpdateInput;
+    const { name, summary, imageUrl, members, periodId, url } = data;
 
-    // TODO : update members and url, period
     const project = await this.prisma.project.update({
       where: { id },
       data: {
         name,
         summary,
         imageUrl,
+        members: {
+          deleteMany: {},
+          createMany: {
+            data: members,
+          },
+        },
+        url: {
+          deleteMany: {},
+          createMany: { data: url },
+        },
+        period: {
+          connect: { id: periodId },
+        },
       },
       include: {
-        members: true,
+        members: {
+          select: {
+            project: true,
+            member: true,
+          },
+        },
         url: true,
         period: true,
       },
@@ -104,6 +131,16 @@ export class ProjectService {
     const { id } = projectUniqueInput;
     const project = await this.prisma.project.delete({
       where: { id },
+      include: {
+        members: {
+          select: {
+            project: true,
+            member: true,
+          },
+        },
+        url: true,
+        period: true,
+      },
     });
 
     return project;
