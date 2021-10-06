@@ -9,6 +9,7 @@ import { PeriodModule } from 'period/period.module';
 import { NewsModule } from 'news/news.module';
 import { DeferenceModule } from 'deference/deference.module';
 import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
+import { MediumModule } from './medium/medium.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
     NewsModule,
     DeferenceModule,
     DeferenceImageModule,
+    MediumModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
