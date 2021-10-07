@@ -77,15 +77,15 @@ model News {
   datetime  DateTime  @default(now())
   summary   String
   link      String
-  image_url  String
-  is_disclosed Boolean
+  imageUrl  String
+  isDisclosed Boolean
 }
 
 model DeferenceImage {
   id                Int               @id @default(autoincrement())
   type              String
-  image_url         String
-  deference         Deference         @relation(fields: [deferenceId], references: [id])
+  imageUrl         String
+  deference         Deference         @relation(fields: [deferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   deferenceId       Int
 }
 

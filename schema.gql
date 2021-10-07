@@ -17,8 +17,8 @@ type NewsResponse {
   datetime: DateTime!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 """
@@ -59,7 +59,7 @@ type Member {
 type DeferenceImageResponse {
   id: Int!
   type: String!
-  image_url: String!
+  imageUrl: String!
 }
 
 type DeferenceResponse {
@@ -76,7 +76,7 @@ type Query {
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
   getNewsById(id: Float!): NewsResponse
-  getAllNews: [NewsResponse!]!
+  getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
 }
@@ -107,6 +107,11 @@ input MemberFindManyInput {
 input PeriodFindInput {
   id: Int
   generation: Int
+}
+
+input FindManyNewsInput {
+  offset: Int
+  page: Int
 }
 
 type Mutation {
@@ -189,8 +194,8 @@ input CreateNewsInput {
   memberId: Int!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 input UpdateNewsInput {
@@ -199,8 +204,8 @@ input UpdateNewsInput {
   memberId: Int!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 input CreateDeferenceInput {
@@ -210,7 +215,7 @@ input CreateDeferenceInput {
 
 input CreateDeferenceImageInput {
   type: String!
-  image_url: String!
+  imageUrl: String!
 }
 
 input UpdateDeferenceInput {
@@ -222,5 +227,5 @@ input UpdateDeferenceInput {
 input UpdateDeferenceImageInput {
   id: Int!
   type: String!
-  image_url: String!
+  imageUrl: String!
 }

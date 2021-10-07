@@ -56,8 +56,8 @@ CREATE TABLE `News` (
     `datetime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `summary` VARCHAR(191) NOT NULL,
     `link` VARCHAR(191) NOT NULL,
-    `image_url` VARCHAR(191) NOT NULL,
-    `is_disclosed` BOOLEAN NOT NULL,
+    `imageUrl` VARCHAR(191) NOT NULL,
+    `isDisclosed` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -66,7 +66,7 @@ CREATE TABLE `News` (
 CREATE TABLE `DeferenceImage` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `type` VARCHAR(191) NOT NULL,
-    `image_url` VARCHAR(191) NOT NULL,
+    `imageUrl` VARCHAR(191) NOT NULL,
     `deferenceId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -93,4 +93,4 @@ ALTER TABLE `PeriodMember` ADD FOREIGN KEY (`periodId`) REFERENCES `Period`(`id`
 ALTER TABLE `News` ADD FOREIGN KEY (`memberId`) REFERENCES `Member`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `DeferenceImage` ADD FOREIGN KEY (`deferenceId`) REFERENCES `Deference`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `DeferenceImage` ADD FOREIGN KEY (`deferenceId`) REFERENCES `Deference`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

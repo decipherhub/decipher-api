@@ -10,5 +10,5 @@ export class DeferenceImageResponse {
   type: string;
 
   @Field()
-  image_url: string;
+  imageUrl: string;
 }

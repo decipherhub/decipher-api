@@ -31,14 +31,14 @@ export class DeferenceService {
   ): Promise<Deference> {
     const { year, deferenceImage } = createDeferenceInput;
 
-    const createDeferenceImage = {
-      createMany: { data: deferenceImage }
-    };
-
     return await this.prisma.deference.create({
       data: {
         year,
-        deferenceImage: createDeferenceImage
+        deferenceImage: {
+          createMany: { 
+            data: deferenceImage 
+          }
+        },
       },
       include: {
         deferenceImage: true,
@@ -52,7 +52,7 @@ export class DeferenceService {
     const { id, year, deferenceImage } = updateDeferenceInput;
     const deferenceImage_id = deferenceImage.id;
     const deferenceImage_type = deferenceImage.type;
-    const deferenceImage_image_url = deferenceImage.image_url;
+    const deferenceImage_imageUrl = deferenceImage.imageUrl;
     return this.prisma.deference.update({
       where: {
         id,
@@ -66,7 +66,7 @@ export class DeferenceService {
             },
             data: {
               type: deferenceImage_type,
-              image_url: deferenceImage_image_url
+              imageUrl: deferenceImage_imageUrl
             }
           },
 
@@ -79,12 +79,6 @@ export class DeferenceService {
   }
 
   async deleteDeference(id: number): Promise<Deference> {
-    await this.prisma.deferenceImage.deleteMany({
-      where: {
-        deferenceId: id
-      }
-    })
-
     return await this.prisma.deference.delete({
       where: {
         id,
