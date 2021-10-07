@@ -15,11 +15,22 @@ export class CreateNewsInput {
   link: string;
 
   @Field()
-  image_url: string;
+  imageUrl: string;
 
   @Field()
-  is_disclosed: boolean;
+  isDisclosed: boolean;
 }
+
+
+@InputType()
+export class FindManyNewsInput {
+  @Field((_type) => Int, { nullable: true })
+  offset: number;
+
+  @Field((_type) => Int, { nullable: true })
+  page: number;
+}
+
 
 @InputType()
 export class UpdateNewsInput {
@@ -39,8 +50,8 @@ export class UpdateNewsInput {
   link: string;
 
   @Field()
-  image_url: string;
+  imageUrl: string;
 
   @Field()
-  is_disclosed: boolean;
+  isDisclosed: boolean;
 }

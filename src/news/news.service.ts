@@ -1,6 +1,6 @@
 import { News, PrismaClient } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
-import { CreateNewsInput, UpdateNewsInput } from './news.input';
+import { CreateNewsInput, FindManyNewsInput, UpdateNewsInput } from './news.input';
 
 @Injectable()
 export class NewsService {
@@ -17,12 +17,19 @@ export class NewsService {
     });
   }
 
-  async getAllNews(): Promise<News[]> {
-    return await this.prisma.news.findMany();
+  async getAllNews(findManyNewsInput: FindManyNewsInput): Promise<News[]> {
+    const { offset, page } = findManyNewsInput;
+    return await this.prisma.news.findMany({
+      skip: page * offset ? page * offset : 0,
+      take: offset,
+      include: {
+        member: true
+      }
+    });
   }
 
   async createNews(createNewsInput: CreateNewsInput): Promise<News> {
-    const { title, memberId, summary, link, image_url, is_disclosed } =
+    const { title, memberId, summary, link, imageUrl, isDisclosed } =
       createNewsInput;
     return this.prisma.news.create({
       data: {
@@ -30,8 +37,8 @@ export class NewsService {
         memberId,
         summary,
         link,
-        image_url,
-        is_disclosed,
+        imageUrl,
+        isDisclosed,
       },
       include: {
         member: true,
@@ -40,7 +47,7 @@ export class NewsService {
   }
 
   async updateNews(updateNewsInput: UpdateNewsInput): Promise<News> {
-    const { id, title, memberId, summary, link, image_url, is_disclosed } =
+    const { id, title, memberId, summary, link, imageUrl, isDisclosed } =
       updateNewsInput;
     return this.prisma.news.update({
       where: {
@@ -51,8 +58,8 @@ export class NewsService {
         memberId,
         summary,
         link,
-        image_url,
-        is_disclosed,
+        imageUrl,
+        isDisclosed,
       },
       include: {
         member: true,

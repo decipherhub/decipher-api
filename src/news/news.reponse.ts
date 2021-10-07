@@ -23,8 +23,8 @@ export class NewsResponse {
   link: string;
 
   @Field()
-  image_url: string;
+  imageUrl: string;
 
   @Field()
-  is_disclosed: boolean;
+  isDisclosed: boolean;
 }
