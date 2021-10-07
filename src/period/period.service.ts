@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient, PeriodMember, Period } from '@prisma/client';
-import { PeriodFindInput, PeriodGenerationInput } from './input/period.input';
+import { PeriodFindInput, PeriodInput } from './input/period.input';
 import {
-  PeriodMemberCreateOrUpdateInput,
+  PeriodMemberInput,
   PeriodMemberUniqueInput,
 } from './input/periodMember.input';
 
@@ -10,10 +10,8 @@ import {
 export class PeriodService {
   constructor(private prisma: PrismaClient) {}
 
-  async createPeriod(
-    periodGenerationInput: PeriodGenerationInput,
-  ): Promise<Period> {
-    const { generation } = periodGenerationInput;
+  async createPeriod(periodInput: PeriodInput): Promise<Period> {
+    const { generation } = periodInput;
 
     const period = await this.prisma.period.create({
       data: {
@@ -25,9 +23,9 @@ export class PeriodService {
   }
 
   async createPeriodMember(
-    periodMemberCreateInput: PeriodMemberCreateOrUpdateInput,
+    periodMemberInput: PeriodMemberInput,
   ): Promise<PeriodMember> {
-    const { role, memberId, periodId } = periodMemberCreateInput;
+    const { role, memberId, periodId } = periodMemberInput;
 
     const periodMember = await this.prisma.periodMember.create({
       data: {
@@ -61,10 +59,8 @@ export class PeriodService {
     return periodMembers;
   }
 
-  async updatePeriodMember(
-    periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput,
-  ) {
-    const { role, memberId, periodId } = periodMemberUpdateInput;
+  async updatePeriodMember(periodMemberInput: PeriodMemberInput) {
+    const { role, memberId, periodId } = periodMemberInput;
     const periodMember = this.prisma.periodMember.update({
       where: {
         memberId_periodId: {

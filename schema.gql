@@ -56,6 +56,28 @@ type Member {
   periods: [PeriodMember!]
 }
 
+
+type ProjectMember {
+  id: Int!
+  member: Member!
+  project: Project!
+  role: Float!
+}
+
+type Project {
+  id: Int!
+  period: Period!
+  name: String!
+  url: [ProjectUrl!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMember!]!
+}
+
+type ProjectUrl {
+  type: String!
+  url: String!
+
 type DeferenceImageResponse {
   id: Int!
   type: String!
@@ -68,17 +90,52 @@ type DeferenceResponse {
   deferenceImage: [DeferenceImageResponse!]
 }
 
+type MediumMember {
+  member: Member
+  medium: Medium
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  mediums: [MediumTag!]!
+}
+
+type MediumTag {
+  id: Int!
+  tag: Tag
+  medium: Medium
+}
+
+type Medium {
+  id: Int!
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  authors: [MediumMember!]!
+  tags: [MediumTag!]!
+
+}
+
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
   findUser(data: UserFindInput!): UserResponse
-  member(memberFindByIdInput: MemberFindByIdInput!): Member!
+  member(memberUniqueInput: MemberUniqueInput!): Member!
   members(memberFindManyInput: MemberFindManyInput!): [Member!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMember!]!
+  project(projectUniqueInput: ProjectUniqueInput!): Project!
+  projects(projectFindManyInput: ProjectFindManyInput!): [Project!]!
   getNewsById(id: Float!): NewsResponse
   getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
+  getDeferenceImageById(id: Float!): DeferenceImageResponse
+  getDeferenceImages: [DeferenceImageResponse!]!
+  medium(mediumFindByIdInput: MediumUniqueInput!): Medium!
+  mediums(mediumFindManyInput: MediumFindManyInput!): [Medium!]!
+  tags: [Tag!]!
 }
 
 input UserSigninInput {
@@ -96,12 +153,13 @@ input UserFindInput {
   name: String
 }
 
-input MemberFindByIdInput {
+input MemberUniqueInput {
   id: Int!
 }
 
 input MemberFindManyInput {
   orderBy: String
+  periodId: Int
 }
 
 input PeriodFindInput {
@@ -114,21 +172,48 @@ input FindManyNewsInput {
   page: Int
 }
 
+input ProjectUniqueInput {
+  id: Int!
+}
+
+input ProjectFindManyInput {
+  orderBy: String
+
+input MediumUniqueInput {
+  id: Int!
+}
+
+input MediumFindManyInput {
+  tagId: Int
+  offset: Int
+  page: Int
+}
+
 type Mutation {
   signupUser(data: UserSignupInput!): UserResponse!
-  createMember(memberCreateInput: MemberCreateInput!): Member!
+  createMember(memberInput: MemberInput!): Member!
   updateMember(memberUpdateInput: MemberUpdateInput!): Member!
-  deleteMember(memberDeleteInput: MemberDeleteInput!): Member!
-  createPeriod(periodGenerationInput: PeriodGenerationInput!): Period!
-  createPeriodMember(periodMemberCreateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
-  updatePeriodMember(periodMemberUpdateInput: PeriodMemberCreateOrUpdateInput!): PeriodMember!
+  deleteMember(memberUniqueInput: MemberUniqueInput!): Member!
+  createPeriod(periodInput: PeriodInput!): Period!
+  createPeriodMember(periodMemberCreateInput: PeriodMemberInput!): PeriodMember!
+  updatePeriodMember(periodMemberUpdateInput: PeriodMemberInput!): PeriodMember!
   deletePeriodMember(periodMemberUniqueInput: PeriodMemberUniqueInput!): PeriodMember!
+  createProject(projectInput: ProjectInput!): Project!
+  updateProject(projectUpdateInput: ProjectUpdateInput!): Project!
+  deleteProject(projectUniqueInput: ProjectUniqueInput!): Project!
   createNews(createNewsInput: CreateNewsInput!): NewsResponse!
   updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
   deleteNews(id: Float!): NewsResponse!
   createDeference(createDeferenceInput: CreateDeferenceInput!): DeferenceResponse!
   updateDeference(updateDeferenceInput: UpdateDeferenceInput!): DeferenceResponse!
   deleteDeference(id: Float!): DeferenceResponse!
+  createDeferenceImage(createDeferenceInput: CreateDeferenceImageInput!): DeferenceImageResponse!
+  updateDeferenceImage(updateDeferenceInput: UpdateDeferenceImageInput!): DeferenceImageResponse!
+  deleteDeferenceImage(id: Float!): DeferenceImageResponse!
+  createTag(tagCreateInput: TagCreateInput!): Tag!
+  createMedium(mediumCreateInput: MediumInput!): Medium!
+  updateMedium(mediumUpdateInput: MediumUpdateInput!): Medium!
+  deleteMedium(mediumDeleteInput: MediumUniqueInput!): Medium!
 }
 
 input UserSignupInput {
@@ -137,51 +222,32 @@ input UserSignupInput {
   password: String!
 }
 
-input MemberCreateInput {
+input MemberInput {
   name: String!
   info: String!
   imageUrl: String!
-  contacts: ContactCreateOrConnectInput
+  contacts: [ContactInput!]
+  periods: [PeriodMemberInput!]
 }
 
-input ContactCreateOrConnectInput {
-  create: [ContactCreateInput!]
-  connect: [ContactConnectInput!]
-}
-
-input ContactCreateInput {
+input ContactInput {
   type: String!
   url: String!
 }
 
-input ContactConnectInput {
-  id: Int!
+input PeriodMemberInput {
+  role: String!
+  memberId: Int
+  periodId: Int
 }
 
 input MemberUpdateInput {
   id: Int!
-  data: MemberUpdateData!
+  data: MemberInput!
 }
 
-input MemberUpdateData {
-  name: String
-  info: String
-  imageUrl: String
-  contacts: ContactCreateOrConnectInput
-}
-
-input MemberDeleteInput {
-  id: Int!
-}
-
-input PeriodGenerationInput {
+input PeriodInput {
   generation: Int!
-}
-
-input PeriodMemberCreateOrUpdateInput {
-  role: String!
-  memberId: Int!
-  periodId: Int!
 }
 
 input PeriodMemberUniqueInput {
@@ -228,4 +294,46 @@ input UpdateDeferenceImageInput {
   id: Int!
   type: String!
   imageUrl: String!
+}
+
+input TagCreateInput {
+  name: String!
+}
+
+input MediumInput {
+  title: String!
+  url: String!
+  imageUrl: String!
+  summary: String!
+  memberIds: [Int!]!
+  tagIds: [Int!]!
+}
+
+input MediumUpdateInput {
+  id: Int!
+  data: MediumInput!
+}
+
+input ProjectInput {
+  name: String!
+  periodId: Int!
+  url: [ProjectUrlInput!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMemberInput!]!
+}
+
+input ProjectUrlInput {
+  type: String!
+  url: String!
+}
+
+input ProjectMemberInput {
+  role: String!
+  memberId: Int!
+}
+
+input ProjectUpdateInput {
+  id: Int!
+  data: ProjectInput
 }
