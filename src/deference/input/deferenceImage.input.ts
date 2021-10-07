@@ -6,10 +6,7 @@ export class CreateDeferenceImageInput {
   type: string;
 
   @Field()
-  image_url: string;
-
-  @Field((type) => Int)
-  deferenceId: number;
+  imageUrl: string;
 }
 
 @InputType()
@@ -21,8 +18,5 @@ export class UpdateDeferenceImageInput {
   type: string;
 
   @Field()
-  image_url: string;
-
-  @Field((type) => Int)
-  deferenceId: number;
+  imageUrl: string;
 }

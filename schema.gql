@@ -17,8 +17,8 @@ type NewsResponse {
   datetime: DateTime!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 """
@@ -81,14 +81,13 @@ type ProjectUrl {
 type DeferenceImageResponse {
   id: Int!
   type: String!
-  image_url: String!
-  deference: DeferenceResponse!
+  imageUrl: String!
 }
 
 type DeferenceResponse {
   id: Int!
   year: Int!
-  deferenceImages: [DeferenceImageResponse!]
+  deferenceImage: [DeferenceImageResponse!]
 }
 
 type MediumMember {
@@ -129,7 +128,7 @@ type Query {
   project(projectUniqueInput: ProjectUniqueInput!): Project!
   projects(projectFindManyInput: ProjectFindManyInput!): [Project!]!
   getNewsById(id: Float!): NewsResponse
-  getAllNews: [NewsResponse!]!
+  getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
   getDeferenceImageById(id: Float!): DeferenceImageResponse
@@ -168,6 +167,10 @@ input PeriodFindInput {
   generation: Int
 }
 
+input FindManyNewsInput {
+  offset: Int
+  page: Int
+}
 
 input ProjectUniqueInput {
   id: Int!
@@ -257,8 +260,8 @@ input CreateNewsInput {
   memberId: Int!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 input UpdateNewsInput {
@@ -267,30 +270,30 @@ input UpdateNewsInput {
   memberId: Int!
   summary: String!
   link: String!
-  image_url: String!
-  is_disclosed: Boolean!
+  imageUrl: String!
+  isDisclosed: Boolean!
 }
 
 input CreateDeferenceInput {
   year: Int!
+  deferenceImage: [CreateDeferenceImageInput!]
+}
+
+input CreateDeferenceImageInput {
+  type: String!
+  imageUrl: String!
 }
 
 input UpdateDeferenceInput {
   id: Int!
   year: Int!
-}
-
-input CreateDeferenceImageInput {
-  type: String!
-  image_url: String!
-  deferenceId: Int!
+  deferenceImage: UpdateDeferenceImageInput
 }
 
 input UpdateDeferenceImageInput {
   id: Int!
   type: String!
-  image_url: String!
-  deferenceId: Int!
+  imageUrl: String!
 }
 
 input TagCreateInput {

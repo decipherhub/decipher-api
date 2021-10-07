@@ -1,7 +1,7 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
 import { NewsResponse } from './news.reponse';
 import { NewsService } from './news.service';
-import { CreateNewsInput, UpdateNewsInput } from './news.input';
+import { CreateNewsInput, UpdateNewsInput, FindManyNewsInput } from './news.input';
 
 @Resolver((of) => NewsResponse)
 export class NewsResolver {
@@ -13,8 +13,8 @@ export class NewsResolver {
   }
 
   @Query((returns) => [NewsResponse])
-  getAllNews() {
-    return this.newsService.getAllNews();
+  getAllNews(@Args('FindManyNewsInput') findManyNewsInput: FindManyNewsInput) {
+    return this.newsService.getAllNews(findManyNewsInput);
   }
 
   @Mutation((returns) => NewsResponse)

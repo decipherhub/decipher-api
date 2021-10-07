@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { DeferenceResponse } from 'deference/deference.response';
 
 @ObjectType('DeferenceImageResponse')
 export class DeferenceImageResponse {
@@ -11,8 +10,5 @@ export class DeferenceImageResponse {
   type: string;
 
   @Field()
-  image_url: string;
-
-  @Field((type) => DeferenceResponse)
-  deference: DeferenceResponse;
+  imageUrl: string;
 }

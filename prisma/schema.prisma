@@ -113,23 +113,23 @@ enum ProjectUrlType {
 }
 
 model News {
-  id           Int      @id @default(autoincrement())
-  title        String
-  member       Member   @relation(fields: [memberId], references: [id]) // fields used to generate Prisma Client
-  memberId     Int // foreign key in database
-  datetime     DateTime @default(now())
-  summary      String
-  link         String
-  image_url    String
-  is_disclosed Boolean
+  id        Int       @id @default(autoincrement())
+  title     String
+  member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
+  memberId  Int                                                             // foreign key in database
+  datetime  DateTime  @default(now())
+  summary   String
+  link      String
+  imageUrl  String
+  isDisclosed Boolean
 }
 
 model DeferenceImage {
-  id          Int       @id @default(autoincrement())
-  type        String
-  image_url   String
-  deference   Deference @relation(fields: [deferenceId], references: [id])
-  deferenceId Int
+  id                Int               @id @default(autoincrement())
+  type              String
+  imageUrl         String
+  deference         Deference         @relation(fields: [deferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  deferenceId       Int
 }
 
 model Deference {

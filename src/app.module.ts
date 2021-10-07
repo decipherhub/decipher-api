@@ -9,7 +9,6 @@ import { PeriodModule } from 'period/period.module';
 import { ProjectModule } from './project/project.module';
 import { NewsModule } from 'news/news.module';
 import { DeferenceModule } from 'deference/deference.module';
-import { DeferenceImageModule } from 'deferenceImage/deferenceImage.module';
 import { MediumModule } from './medium/medium.module';
 
 @Module({
@@ -24,7 +23,6 @@ import { MediumModule } from './medium/medium.module';
     ProjectModule,
     NewsModule,
     DeferenceModule,
-    DeferenceImageModule,
     MediumModule,
   ],
   controllers: [AppController],
