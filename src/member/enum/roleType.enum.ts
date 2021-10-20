@@ -1,3 +1,5 @@
+import { registerEnumType } from '@nestjs/graphql';
+
 export enum RoleType {
   PRESIDENT = 'PRESIDENT',
   VICE_PRESIDENT = 'VICE_PRESIDENT',
@@ -6,3 +8,7 @@ export enum RoleType {
   MEMBER = 'MEMBER',
   MENTOR = 'MENTOR',
 }
+
+registerEnumType(RoleType, {
+  name: 'RoleType',
+});
