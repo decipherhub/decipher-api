@@ -3,7 +3,7 @@ import { NewsResponse } from 'news/news.reponse';
 import { PeriodMemberResponse } from 'period/response/periodMember.response';
 import { ContactResponse } from './contact.response';
 
-@ObjectType('Member')
+@ObjectType('MemberResponse')
 export class MemberResponse {
   @Field((_type) => Int)
   id: number;

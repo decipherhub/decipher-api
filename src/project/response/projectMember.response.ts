@@ -3,7 +3,7 @@ import { MemberResponse } from 'member/response/member.response';
 import { ProjectRoleType } from 'project/enum/projectRoleType.enum';
 import { ProjectResponse } from './project.response';
 
-@ObjectType('ProjectMember')
+@ObjectType('ProjectMemberResponse')
 export class ProjectMemberResponse {
   @Field((_type) => Int)
   id: number;

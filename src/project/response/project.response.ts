@@ -3,7 +3,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { PeriodResponse } from 'period/response/period.response';
 import { ProjectMemberResponse } from './projectMember.response';
 
-@ObjectType('Project')
+@ObjectType('ProjectResponse')
 export class ProjectResponse {
   @Field((_type) => Int)
   id: number;

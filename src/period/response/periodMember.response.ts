@@ -3,7 +3,7 @@ import { RoleType } from 'member/enum/roleType.enum';
 import { MemberResponse } from 'member/response/member.response';
 import { PeriodResponse } from './period.response';
 
-@ObjectType('PeriodMember')
+@ObjectType('PeriodMemberResponse')
 export class PeriodMemberResponse {
   @Field((_type) => Int)
   id: number;

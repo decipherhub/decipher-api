@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { MediumTagResponse } from './mediumTag.response';
 
-@ObjectType('Tag')
+@ObjectType('TagResponse')
 export class TagResponse {
   @Field((_type) => Int)
   id: number;
