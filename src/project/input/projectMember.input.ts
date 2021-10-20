@@ -3,7 +3,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class ProjectMemberInput {
-  @Field((_type) => String)
+  @Field((_type) => ProjectRoleType)
   role: ProjectRoleType;
 
   @Field((_type) => Int)

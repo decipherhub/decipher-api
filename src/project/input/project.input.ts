@@ -1,6 +1,6 @@
-import { ProjectUrlType } from '.prisma/client';
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { Prisma } from '@prisma/client';
+import { ProjectUrlType } from 'project/enum/projectUrlType.enum';
 import { ProjectMemberInput } from './projectMember.input';
 
 @InputType()
@@ -26,7 +26,7 @@ export class ProjectInput {
 
 @InputType()
 class ProjectUrlInput {
-  @Field((_type) => String)
+  @Field((_type) => ProjectUrlType)
   type: ProjectUrlType;
 
   @Field((_type) => String)

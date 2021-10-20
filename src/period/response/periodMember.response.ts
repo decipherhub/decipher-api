@@ -8,7 +8,7 @@ export class PeriodMemberResponse {
   @Field((_type) => Int)
   id: number;
 
-  @Field((_type) => String)
+  @Field((_type) => RoleType)
   role: RoleType;
 
   @Field((_type) => MemberResponse)

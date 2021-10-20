@@ -14,6 +14,6 @@ export class ProjectMemberResponse {
   @Field((_type) => ProjectResponse)
   project: ProjectResponse;
 
-  @Field()
+  @Field((_type) => ProjectRoleType)
   role: ProjectRoleType;
 }

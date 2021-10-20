@@ -9,7 +9,7 @@ export class ContactResponse {
   @Field((_type) => Int, { nullable: true })
   ownerId: number;
 
-  @Field((_type) => String, { nullable: true })
+  @Field((_type) => ContactType, { nullable: true })
   type: ContactType;
 
   @Field((_type) => String, { nullable: true })

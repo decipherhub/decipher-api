@@ -3,7 +3,7 @@ import { RoleType } from 'member/enum/roleType.enum';
 
 @InputType()
 export class PeriodMemberInput {
-  @Field((_type) => String)
+  @Field((_type) => RoleType)
   role: RoleType;
 
   @Field((_type) => Int, { nullable: true })
