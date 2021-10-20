@@ -34,16 +34,32 @@ type PeriodResponse {
 
 type PeriodMemberResponse {
   id: Int!
-  role: String!
+  role: PeriodRoleType!
   member: MemberResponse!
   period: PeriodResponse!
+}
+
+enum PeriodRoleType {
+  PRESIDENT
+  VICE_PRESIDENT
+  MEDIA_LEAD
+  MANAGER
+  MEMBER
+  MENTOR
 }
 
 type ContactResponse {
   id: Int!
   ownerId: Int
-  type: String
+  type: ContactType
   url: String
+}
+
+enum ContactType {
+  GITHUB
+  LINKEDIN
+  MEDIUM
+  EMAIL
 }
 
 type MemberResponse {
@@ -60,22 +76,32 @@ type ProjectMemberResponse {
   id: Int!
   member: MemberResponse!
   project: ProjectResponse!
-  role: Float!
+  role: ProjectRoleType!
+}
+
+enum ProjectRoleType {
+  TEAM_LEADER
+  TEAM_MEMBER
 }
 
 type ProjectResponse {
   id: Int!
   period: PeriodResponse!
   name: String!
-  url: [ProjectUrl!]!
+  url: [ProjectUrlResponse!]!
   summary: String!
   imageUrl: String!
   members: [ProjectMemberResponse!]!
 }
 
-type ProjectUrl {
-  type: String!
+type ProjectUrlResponse {
+  type: ProjectUrlType!
   url: String!
+}
+
+enum ProjectUrlType {
+  MEDIUM
+  YOUTUBE
 }
 
 type DeferenceImageResponse {
@@ -231,15 +257,8 @@ input ContactInput {
   url: String!
 }
 
-enum ContactType {
-  GITHUB
-  LINKEDIN
-  MEDIUM
-  EMAIL
-}
-
 input PeriodMemberInput {
-  role: String!
+  role: PeriodRoleType!
   memberId: Int
   periodId: Int
 }
@@ -268,12 +287,12 @@ input ProjectInput {
 }
 
 input ProjectUrlInput {
-  type: String!
+  type: ProjectUrlType!
   url: String!
 }
 
 input ProjectMemberInput {
-  role: String!
+  role: ProjectRoleType!
   memberId: Int!
 }
 
