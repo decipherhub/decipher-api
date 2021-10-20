@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { RoleType } from 'member/enum/roleType.enum';
+import { PeriodRoleType } from 'member/enum/periodRoleType.enum';
 import { MemberResponse } from 'member/response/member.response';
 import { PeriodResponse } from './period.response';
 
@@ -8,8 +8,8 @@ export class PeriodMemberResponse {
   @Field((_type) => Int)
   id: number;
 
-  @Field((_type) => RoleType)
-  role: RoleType;
+  @Field((_type) => PeriodRoleType)
+  role: PeriodRoleType;
 
   @Field((_type) => MemberResponse)
   member: MemberResponse;
