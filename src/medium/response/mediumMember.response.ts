@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { MemberResponse } from 'member/response/member.response';
 import { MediumResponse } from './medium.response';
 
-@ObjectType('MediumMember')
+@ObjectType('MediumMemberResponse')
 export class MediumMemberResponse {
   @Field((_type) => MemberResponse, { nullable: true })
   member: MemberResponse;

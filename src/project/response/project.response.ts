@@ -1,9 +1,9 @@
-import { ProjectUrlType } from '.prisma/client';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { PeriodResponse } from 'period/response/period.response';
+import { ProjectUrlType } from 'project/enum/projectUrlType.enum';
 import { ProjectMemberResponse } from './projectMember.response';
 
-@ObjectType('Project')
+@ObjectType('ProjectResponse')
 export class ProjectResponse {
   @Field((_type) => Int)
   id: number;
@@ -27,9 +27,9 @@ export class ProjectResponse {
   members: ProjectMemberResponse[];
 }
 
-@ObjectType('ProjectUrl')
+@ObjectType('ProjectUrlResponse')
 class ProjectUrlResponse {
-  @Field((_type) => String)
+  @Field((_type) => ProjectUrlType)
   type: ProjectUrlType;
 
   @Field((_type) => String)
