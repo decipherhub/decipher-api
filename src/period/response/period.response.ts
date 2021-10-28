@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import { ProjectResponse } from 'project/response/project.response';
 import { PeriodMemberResponse } from './periodMember.response';
 
@@ -7,7 +7,7 @@ export class PeriodResponse {
   @Field((_type) => Int, { nullable: true })
   id: number;
 
-  @Field((_type) => Int, { nullable: true })
+  @Field((_type) => Float, { nullable: true })
   generation: number;
 
   @Field((_type) => [PeriodMemberResponse], { nullable: true })
