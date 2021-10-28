@@ -26,16 +26,49 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type PeriodResponse {
+type ProjectMemberResponse {
   id: Int!
-  generation: Float!
-  memberId: [MemberResponse!]!
+  member: MemberResponse!
+  project: ProjectResponse!
+  role: ProjectRoleType!
+}
+
+enum ProjectRoleType {
+  TEAM_LEADER
+  TEAM_MEMBER
+}
+
+type ProjectResponse {
+  id: Int!
+  period: PeriodResponse!
+  name: String!
+  url: [ProjectUrlResponse!]!
+  summary: String!
+  imageUrl: String!
+  members: [ProjectMemberResponse!]!
+}
+
+type ProjectUrlResponse {
+  type: ProjectUrlType!
+  url: String
+}
+
+enum ProjectUrlType {
+  MEDIUM
+  YOUTUBE
+}
+
+type PeriodResponse {
+  id: Int
+  generation: Int
+  members: [PeriodMemberResponse!]
+  projects: [ProjectResponse!]
 }
 
 type PeriodMemberResponse {
   id: Int!
   role: PeriodRoleType!
-  member: MemberResponse!
+  member: MemberResponse
   period: PeriodResponse!
 }
 
@@ -70,38 +103,6 @@ type MemberResponse {
   news: [NewsResponse!]
   contacts: [ContactResponse!]
   periods: [PeriodMemberResponse!]
-}
-
-type ProjectMemberResponse {
-  id: Int!
-  member: MemberResponse!
-  project: ProjectResponse!
-  role: ProjectRoleType!
-}
-
-enum ProjectRoleType {
-  TEAM_LEADER
-  TEAM_MEMBER
-}
-
-type ProjectResponse {
-  id: Int!
-  period: PeriodResponse!
-  name: String!
-  url: [ProjectUrlResponse!]!
-  summary: String!
-  imageUrl: String!
-  members: [ProjectMemberResponse!]!
-}
-
-type ProjectUrlResponse {
-  type: ProjectUrlType!
-  url: String!
-}
-
-enum ProjectUrlType {
-  MEDIUM
-  YOUTUBE
 }
 
 type DeferenceImageResponse {
@@ -150,6 +151,8 @@ type Query {
   member(memberUniqueInput: MemberUniqueInput!): MemberResponse!
   members(memberFindManyInput: MemberFindManyInput!): [MemberResponse!]!
   periodMembers(periodFindInput: PeriodFindInput!): [PeriodMemberResponse!]!
+  period(periodFindInput: PeriodFindInput!): PeriodResponse!
+  periods(periodFindInput: PeriodFindInput!): [PeriodResponse!]!
   project(projectUniqueInput: ProjectUniqueInput!): ProjectResponse!
   projects(projectFindManyInput: ProjectFindManyInput!): [ProjectResponse!]!
   getNewsById(id: Float!): NewsResponse
@@ -187,7 +190,6 @@ input MemberFindManyInput {
 
 input PeriodFindInput {
   id: Int
-  generation: Int
 }
 
 input ProjectUniqueInput {
