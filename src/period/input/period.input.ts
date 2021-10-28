@@ -10,7 +10,4 @@ export class PeriodInput {
 export class PeriodFindInput {
   @Field((_type) => Int, { nullable: true })
   id: number;
-
-  @Field((_type) => Int, { nullable: true })
-  generation: number;
 }

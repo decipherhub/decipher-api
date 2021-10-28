@@ -20,6 +20,22 @@ export class PeriodResolver {
     return this.periodService.findPeriodMembers(periodFindInput);
   }
 
+  @Query((_returns) => PeriodResponse)
+  period(
+    @Args('periodFindInput')
+    periodFindInput: PeriodFindInput,
+  ): Promise<Period> {
+    return this.periodService.findPeriod(periodFindInput);
+  }
+
+  @Query((_returns) => [PeriodResponse])
+  periods(
+    @Args('periodFindInput')
+    periodFindInput: PeriodFindInput,
+  ): Promise<Period[]> {
+    return this.periodService.getAllPeriods(periodFindInput);
+  }
+
   @Mutation((_returns) => PeriodResponse)
   createPeriod(@Args('periodInput') periodInput: PeriodInput): Promise<Period> {
     return this.periodService.createPeriod(periodInput);

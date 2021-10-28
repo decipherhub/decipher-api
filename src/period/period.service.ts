@@ -42,6 +42,71 @@ export class PeriodService {
     return periodMember;
   }
 
+  async getAllPeriods(periodFindInput: PeriodFindInput): Promise<Period[]> {
+    const { id } = periodFindInput;
+    const periods = await this.prisma.period.findMany({
+      where: { id },
+      orderBy: {
+        generation: 'desc',
+      },
+      include: {
+        projects: {
+          include: {
+            url: true,
+            members: {
+              include: {
+                member: true,
+              },
+            },
+          },
+        },
+        members: {
+          include: {
+            member: {
+              include: {
+                contacts: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return periods;
+  }
+
+  async findPeriod(periodFindInput: PeriodFindInput): Promise<Period> {
+    const { id } = periodFindInput;
+    const period = await this.prisma.period.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        projects: {
+          include: {
+            url: true,
+            members: {
+              include: {
+                member: true,
+              },
+            },
+          },
+        },
+        members: {
+          include: {
+            member: {
+              include: {
+                contacts: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return period;
+  }
+
   async findPeriodMembers(
     periodFindInput: PeriodFindInput,
   ): Promise<PeriodMember[]> {
