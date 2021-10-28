@@ -23,8 +23,8 @@ model User {
 model Member {
   id       Int             @id @default(autoincrement())
   name     String
-  info     String
-  imageUrl String
+  info     String?
+  imageUrl String?
   contacts Contact[]
   periods  PeriodMember[]
   project  ProjectMember[]
