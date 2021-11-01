@@ -1,13 +1,14 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
   MediumInput,
   MediumFindManyInput,
   MediumUniqueInput,
   MediumUpdateInput,
+  MediumCountInput,
 } from './input/medium.input';
 import { TagCreateInput, TagUniqueInput } from './input/tag.input';
 import { MediumService } from './medium.service';
-import { MediumResponse } from './response/medium.response';
+import { CountResponse, MediumResponse } from './response/medium.response';
 import { TagResponse } from './response/tag.response';
 
 @Resolver()
@@ -28,6 +29,13 @@ export class MediumResolver {
   @Query((_returns) => [TagResponse])
   tags() {
     return this.mediumService.findTags();
+  }
+
+  @Query((_returns) => CountResponse)
+  countTotalMedium(
+    @Args('mediumCountInput') mediumCountInput: MediumCountInput,
+  ) {
+    return this.mediumService.countMedium(mediumCountInput);
   }
 
   @Mutation((_returns) => TagResponse)

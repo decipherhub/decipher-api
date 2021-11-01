@@ -5,8 +5,10 @@ import {
   MediumFindManyInput,
   MediumUniqueInput,
   MediumUpdateInput,
+  MediumCountInput,
 } from './input/medium.input';
 import { TagCreateInput, TagUniqueInput } from './input/tag.input';
+import { CountResponse } from './response/medium.response';
 
 @Injectable()
 export class MediumService {
@@ -23,6 +25,7 @@ export class MediumService {
     const tagIdList = tagIds.map((id, _index) => {
       return { tagId: id };
     });
+
     const medium = await this.prisma.medium.create({
       data: {
         title,
@@ -176,5 +179,24 @@ export class MediumService {
     });
 
     return tag;
+  }
+
+  async countMedium(
+    mediumCountInput: MediumCountInput,
+  ): Promise<CountResponse> {
+    const tagId = mediumCountInput?.tagId;
+    const count = await this.prisma.medium.count(
+      tagId && {
+        where: {
+          tags: {
+            some: {
+              tagId,
+            },
+          },
+        },
+      },
+    );
+
+    return { count };
   }
 }

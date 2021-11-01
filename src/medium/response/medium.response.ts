@@ -25,3 +25,9 @@ export class MediumResponse {
   @Field((_type) => [MediumTagResponse])
   tags: MediumTagResponse[];
 }
+
+@ObjectType('CountResponse')
+export class CountResponse {
+  @Field((_type) => Int)
+  count: number;
+}

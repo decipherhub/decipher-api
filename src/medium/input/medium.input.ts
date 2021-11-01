@@ -47,3 +47,9 @@ export class MediumFindManyInput {
   @Field((_type) => Int, { nullable: true })
   page: number;
 }
+
+@InputType()
+export class MediumCountInput {
+  @Field((_type) => Int, { nullable: true })
+  tagId: number;
+}
