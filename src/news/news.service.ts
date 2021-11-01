@@ -1,6 +1,11 @@
 import { News, PrismaClient } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
-import { CreateNewsInput, FindManyNewsInput, UpdateNewsInput } from './news.input';
+import { CountResponse } from 'medium/response/medium.response';
+import {
+  CreateNewsInput,
+  FindManyNewsInput,
+  UpdateNewsInput,
+} from './news.input';
 
 @Injectable()
 export class NewsService {
@@ -23,8 +28,8 @@ export class NewsService {
       skip: page * offset ? page * offset : 0,
       take: offset,
       include: {
-        member: true
-      }
+        member: true,
+      },
     });
   }
 
@@ -76,5 +81,10 @@ export class NewsService {
         member: true,
       },
     });
+  }
+
+  async countNews(): Promise<CountResponse> {
+    const count = await this.prisma.news.count();
+    return { count };
   }
 }

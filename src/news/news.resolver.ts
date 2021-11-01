@@ -1,7 +1,12 @@
-import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
+import { Args, Resolver, Query, Mutation, Int } from '@nestjs/graphql';
 import { NewsResponse } from './news.reponse';
 import { NewsService } from './news.service';
-import { CreateNewsInput, UpdateNewsInput, FindManyNewsInput } from './news.input';
+import {
+  CreateNewsInput,
+  UpdateNewsInput,
+  FindManyNewsInput,
+} from './news.input';
+import { CountResponse } from 'medium/response/medium.response';
 
 @Resolver((of) => NewsResponse)
 export class NewsResolver {
@@ -10,6 +15,11 @@ export class NewsResolver {
   @Query((returns) => NewsResponse, { nullable: true })
   getNewsById(@Args('id') id: number) {
     return this.newsService.getNews(id);
+  }
+
+  @Query((returns) => CountResponse)
+  countTotalNews() {
+    return this.newsService.countNews();
   }
 
   @Query((returns) => [NewsResponse])
