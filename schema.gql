@@ -105,18 +105,6 @@ type MemberResponse {
   periods: [PeriodMemberResponse!]
 }
 
-type DeferenceImageResponse {
-  id: Int!
-  type: String!
-  imageUrl: String!
-}
-
-type DeferenceResponse {
-  id: Int!
-  year: Int!
-  deferenceImage: [DeferenceImageResponse!]
-}
-
 type MediumMemberResponse {
   member: MemberResponse
   medium: MediumResponse
@@ -144,6 +132,22 @@ type MediumResponse {
   tags: [MediumTagResponse!]!
 }
 
+type CountResponse {
+  count: Int!
+}
+
+type DeferenceImageResponse {
+  id: Int!
+  type: String!
+  imageUrl: String!
+}
+
+type DeferenceResponse {
+  id: Int!
+  year: Int!
+  deferenceImage: [DeferenceImageResponse!]
+}
+
 type Query {
   signinUser(data: UserSigninInput!): UserResponse!
   findUsers(data: UsersFindInput!): [UserResponse!]
@@ -156,12 +160,14 @@ type Query {
   project(projectUniqueInput: ProjectUniqueInput!): ProjectResponse!
   projects(projectFindManyInput: ProjectFindManyInput!): [ProjectResponse!]!
   getNewsById(id: Float!): NewsResponse
+  countTotalNews: CountResponse!
   getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
   medium(mediumFindByIdInput: MediumUniqueInput!): MediumResponse!
   mediums(mediumFindManyInput: MediumFindManyInput!): [MediumResponse!]!
   tags: [TagResponse!]!
+  countTotalMedium(mediumCountInput: MediumCountInput!): CountResponse!
 }
 
 input UserSigninInput {
@@ -213,6 +219,10 @@ input MediumFindManyInput {
   tagId: Int
   offset: Int
   page: Int
+}
+
+input MediumCountInput {
+  tagId: Int
 }
 
 type Mutation {
