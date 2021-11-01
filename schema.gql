@@ -50,7 +50,7 @@ type ProjectResponse {
 
 type ProjectUrlResponse {
   type: ProjectUrlType!
-  url: String
+  url: String!
 }
 
 enum ProjectUrlType {
@@ -60,7 +60,7 @@ enum ProjectUrlType {
 
 type PeriodResponse {
   id: Int
-  generation: Int
+  generation: Float
   members: [PeriodMemberResponse!]
   projects: [ProjectResponse!]
 }
@@ -68,7 +68,7 @@ type PeriodResponse {
 type PeriodMemberResponse {
   id: Int!
   role: PeriodRoleType!
-  member: MemberResponse
+  member: MemberResponse!
   period: PeriodResponse!
 }
 
@@ -271,7 +271,7 @@ input MemberUpdateInput {
 }
 
 input PeriodInput {
-  generation: Int!
+  generation: Float!
 }
 
 input PeriodMemberUniqueInput {
