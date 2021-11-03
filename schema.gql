@@ -93,6 +93,10 @@ enum ContactType {
   LINKEDIN
   MEDIUM
   EMAIL
+  WEBSITE
+  BLOG
+  BRUNCH
+  FACEBOOK
 }
 
 type MemberResponse {

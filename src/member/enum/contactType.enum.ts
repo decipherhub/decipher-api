@@ -8,7 +8,7 @@ export enum ContactType {
   WEBSITE = 'WEBSITE',
   BLOG = 'BLOG',
   BRUNCH = 'BRUNCH',
-  FACEBOOK = 'FACEBOK',
+  FACEBOOK = 'FACEBOOK',
 }
 
 registerEnumType(ContactType, {
