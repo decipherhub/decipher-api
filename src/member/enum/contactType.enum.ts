@@ -5,6 +5,10 @@ export enum ContactType {
   LINKEDIN = 'LINKEDIN',
   MEDIUM = 'MEDIUM',
   EMAIL = 'EMAIL',
+  WEBSITE = 'WEBSITE',
+  BLOG = 'BLOG',
+  BRUNCH = 'BRUNCH',
+  FACEBOOK = 'FACEBOK',
 }
 
 registerEnumType(ContactType, {
