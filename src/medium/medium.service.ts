@@ -129,7 +129,12 @@ export class MediumService {
             member: true,
           },
         },
-        tags: true,
+        tags: {
+          select: {
+            tag: true,
+            medium: true,
+          },
+        },
       },
     });
 
@@ -149,7 +154,12 @@ export class MediumService {
             member: true,
           },
         },
-        tags: true,
+        tags: {
+          select: {
+            tag: true,
+            medium: true,
+          },
+        },
       },
     });
 

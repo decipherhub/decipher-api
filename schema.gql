@@ -110,8 +110,8 @@ type MemberResponse {
 }
 
 type MediumMemberResponse {
-  member: MemberResponse
-  medium: MediumResponse
+  member: MemberResponse!
+  medium: MediumResponse!
 }
 
 type TagResponse {
@@ -122,8 +122,8 @@ type TagResponse {
 
 type MediumTagResponse {
   id: Int!
-  tag: TagResponse
-  medium: MediumResponse
+  tag: TagResponse!
+  medium: MediumResponse!
 }
 
 type MediumResponse {

@@ -7,9 +7,9 @@ export class MediumTagResponse {
   @Field((_type) => Int)
   id: number;
 
-  @Field((_type) => TagResponse, { nullable: true })
+  @Field((_type) => TagResponse)
   tag: TagResponse;
 
-  @Field((_type) => MediumResponse, { nullable: true })
+  @Field((_type) => MediumResponse)
   medium: MediumResponse;
 }

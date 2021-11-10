@@ -4,9 +4,9 @@ import { MediumResponse } from './medium.response';
 
 @ObjectType('MediumMemberResponse')
 export class MediumMemberResponse {
-  @Field((_type) => MemberResponse, { nullable: true })
+  @Field((_type) => MemberResponse)
   member: MemberResponse;
 
-  @Field((_type) => MediumResponse, { nullable: true })
+  @Field((_type) => MediumResponse)
   medium: MediumResponse;
 }
