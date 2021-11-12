@@ -114,6 +114,7 @@ model ProjectUrl {
 enum ProjectUrlType {
   MEDIUM
   YOUTUBE
+  WEBSITE
 }
 
 model News {
