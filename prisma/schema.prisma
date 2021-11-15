@@ -114,6 +114,7 @@ model ProjectUrl {
 enum ProjectUrlType {
   MEDIUM
   YOUTUBE
+  WEBSITE
 }
 
 model News {
@@ -122,9 +123,9 @@ model News {
   member    Member    @relation(fields: [memberId], references: [id])       // fields used to generate Prisma Client
   memberId  Int                                                             // foreign key in database
   datetime  DateTime  @default(now())
-  summary   String
+  summary   String?
   link      String
-  imageUrl  String
+  imageUrl  String?
   isDisclosed Boolean
 }
 
@@ -147,8 +148,8 @@ model Medium {
   title        String
   authors      MediumMember[]
   url          String
-  imageUrl     String
-  summary      String
+  imageUrl     String?
+  summary      String?
   tags         MediumTag[]
 }
 
