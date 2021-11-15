@@ -15,7 +15,7 @@ import { TagResponse } from './response/tag.response';
 export class MediumResolver {
   constructor(private mediumService: MediumService) {}
   @Query((_returns) => MediumResponse)
-  medium(@Args('mediumFindByIdInput') mediumUniqueInput: MediumUniqueInput) {
+  medium(@Args('mediumUniqueInput') mediumUniqueInput: MediumUniqueInput) {
     return this.mediumService.findMediumById(mediumUniqueInput);
   }
 

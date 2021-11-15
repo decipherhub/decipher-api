@@ -42,7 +42,11 @@ export class MediumService {
             member: true,
           },
         },
-        tags: true,
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
       },
     });
 
@@ -63,7 +67,11 @@ export class MediumService {
             member: true,
           },
         },
-        tags: true,
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
       },
     });
 
@@ -92,7 +100,11 @@ export class MediumService {
             member: true,
           },
         },
-        tags: true,
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
       },
     });
 
