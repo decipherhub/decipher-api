@@ -8,6 +8,6 @@ RUN apk add --no-cache --virtual .gyp \
     && yarn install \
     && apk del .gyp
 COPY . .
-RUN yarn build
+RUN yarn migrate && yarn build
 EXPOSE 3000
 CMD ["yarn", "start:prod"]  
