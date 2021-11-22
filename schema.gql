@@ -56,6 +56,7 @@ type ProjectUrlResponse {
 enum ProjectUrlType {
   MEDIUM
   YOUTUBE
+  WEBSITE
 }
 
 type PeriodResponse {
@@ -140,16 +141,43 @@ type CountResponse {
   count: Int!
 }
 
-type DeferenceImageResponse {
+type DeferenceSpeakerResponse {
+  id: Int!
+  name: String!
+  imageUrl: String!
+  info: String!
+}
+
+type DeferenceReferenceResponse {
   id: Int!
   type: String!
+  link: String!
+}
+
+type DeferencePartnerLogoUrlResponse {
+  id: Int!
+  name: String!
   imageUrl: String!
 }
 
 type DeferenceResponse {
   id: Int!
   year: Int!
-  deferenceImage: [DeferenceImageResponse!]
+  summary: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  participationMethod: String!
+  contents: String!
+  audience: String!
+  host: String!
+  formLink: String!
+  mainPosterUrlDesktop: String!
+  mainPosterUrlMobile: String!
+  schedulePosterUrlDesktop: String!
+  schedulePosterUrlMobile: String!
+  deferenceSpeaker: [DeferenceSpeakerResponse!]
+  deferenceReference: [DeferenceReferenceResponse!]
+  deferencePartnerLogoUrl: [DeferencePartnerLogoUrlResponse!]
 }
 
 type Query {
@@ -168,7 +196,7 @@ type Query {
   getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
-  medium(mediumFindByIdInput: MediumUniqueInput!): MediumResponse!
+  medium(mediumUniqueInput: MediumUniqueInput!): MediumResponse!
   mediums(mediumFindManyInput: MediumFindManyInput!): [MediumResponse!]!
   tags: [TagResponse!]!
   countTotalMedium(mediumCountInput: MediumCountInput!): CountResponse!
@@ -244,9 +272,6 @@ type Mutation {
   createNews(createNewsInput: CreateNewsInput!): NewsResponse!
   updateNews(updateNewsInput: UpdateNewsInput!): NewsResponse!
   deleteNews(id: Float!): NewsResponse!
-  createDeference(createDeferenceInput: CreateDeferenceInput!): DeferenceResponse!
-  updateDeference(updateDeferenceInput: UpdateDeferenceInput!): DeferenceResponse!
-  deleteDeference(id: Float!): DeferenceResponse!
   createTag(tagCreateInput: TagCreateInput!): TagResponse!
   deleteTag(tagUniqueInput: TagUniqueInput!): TagResponse!
   createMedium(mediumCreateInput: MediumInput!): MediumResponse!
@@ -334,28 +359,6 @@ input UpdateNewsInput {
   link: String!
   imageUrl: String!
   isDisclosed: Boolean!
-}
-
-input CreateDeferenceInput {
-  year: Int!
-  deferenceImage: [CreateDeferenceImageInput!]
-}
-
-input CreateDeferenceImageInput {
-  type: String!
-  imageUrl: String!
-}
-
-input UpdateDeferenceInput {
-  id: Int!
-  year: Int!
-  deferenceImage: UpdateDeferenceImageInput
-}
-
-input UpdateDeferenceImageInput {
-  id: Int!
-  type: String!
-  imageUrl: String!
 }
 
 input TagCreateInput {
