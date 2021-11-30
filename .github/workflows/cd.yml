@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: 
     - "Node.js CI"
-    branches: [main, ci/ecs]
+    branches: ["main", "ci/ecs"]
     types:
     - completed
 
