@@ -56,6 +56,7 @@ type ProjectUrlResponse {
 enum ProjectUrlType {
   MEDIUM
   YOUTUBE
+  WEBSITE
 }
 
 type PeriodResponse {
@@ -168,7 +169,7 @@ type Query {
   getAllNews(FindManyNewsInput: FindManyNewsInput!): [NewsResponse!]!
   getDeferenceById(id: Float!): DeferenceResponse
   getDeferences: [DeferenceResponse!]!
-  medium(mediumFindByIdInput: MediumUniqueInput!): MediumResponse!
+  medium(mediumUniqueInput: MediumUniqueInput!): MediumResponse!
   mediums(mediumFindManyInput: MediumFindManyInput!): [MediumResponse!]!
   tags: [TagResponse!]!
   countTotalMedium(mediumCountInput: MediumCountInput!): CountResponse!
