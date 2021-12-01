@@ -4,7 +4,7 @@ CREATE TABLE `User` (
     `email` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `is_admin` BOOLEAN NOT NULL DEFAULT false,
+    `isAdmin` BOOLEAN NOT NULL DEFAULT false,
     `salt` VARCHAR(191) NOT NULL DEFAULT '',
 
     UNIQUE INDEX `User.email_unique`(`email`),
@@ -15,8 +15,8 @@ CREATE TABLE `User` (
 CREATE TABLE `Member` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `info` VARCHAR(191) NOT NULL,
-    `imageUrl` VARCHAR(191) NOT NULL,
+    `info` VARCHAR(191),
+    `imageUrl` VARCHAR(191),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -25,7 +25,7 @@ CREATE TABLE `Member` (
 CREATE TABLE `Contact` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `ownerId` INTEGER NOT NULL,
-    `type` ENUM('GITHUB', 'LINKEDIN', 'MEDIUM', 'EMAIL') NOT NULL,
+    `type` ENUM('GITHUB', 'LINKEDIN', 'MEDIUM', 'EMAIL', 'WEBSITE', 'BLOG', 'BRUNCH', 'FACEBOOK') NOT NULL,
     `url` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -34,7 +34,7 @@ CREATE TABLE `Contact` (
 -- CreateTable
 CREATE TABLE `Period` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `generation` INTEGER NOT NULL,
+    `generation` DOUBLE NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -72,7 +72,7 @@ CREATE TABLE `ProjectMember` (
 CREATE TABLE `ProjectUrl` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `projectId` INTEGER NOT NULL,
-    `type` ENUM('MEDIUM', 'YOUTUBE') NOT NULL,
+    `type` ENUM('MEDIUM', 'YOUTUBE', 'WEBSITE') NOT NULL,
     `url` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -84,9 +84,9 @@ CREATE TABLE `News` (
     `title` VARCHAR(191) NOT NULL,
     `memberId` INTEGER NOT NULL,
     `datetime` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `summary` VARCHAR(191) NOT NULL,
+    `summary` VARCHAR(191),
     `link` VARCHAR(191) NOT NULL,
-    `imageUrl` VARCHAR(191) NOT NULL,
+    `imageUrl` VARCHAR(191),
     `isDisclosed` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -115,8 +115,8 @@ CREATE TABLE `Medium` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
     `url` VARCHAR(191) NOT NULL,
-    `imageUrl` VARCHAR(191) NOT NULL,
-    `summary` VARCHAR(191) NOT NULL,
+    `imageUrl` VARCHAR(191),
+    `summary` VARCHAR(191),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

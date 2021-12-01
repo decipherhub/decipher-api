@@ -8,7 +8,7 @@ RUN apk add --no-cache --virtual .gyp \
     && yarn install \
     && apk del .gyp
 COPY . .
-RUN yarn build
+RUN yarn prisma generate && yarn build
 EXPOSE 3000
 CMD ["yarn", "start:prod"]
 ENTRYPOINT ["yarn", "migrate:prod"]  
