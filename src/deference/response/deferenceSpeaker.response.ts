@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType('DeferenceSpeakerResponse')

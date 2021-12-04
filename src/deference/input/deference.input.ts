@@ -44,13 +44,13 @@ export class CreateDeferenceInput {
   @Field()
   schedulePosterUrlMobile: string;
 
-  @Field((type) => [CreateDeferenceSpeakerInput], { nullable: true })
+  @Field((type) => [CreateDeferenceSpeakerInput])
   deferenceSpeaker: CreateDeferenceSpeakerInput[];
 
-  @Field((type) => [CreateDeferenceReferenceInput], { nullable: true })
+  @Field((type) => [CreateDeferenceReferenceInput])
   deferenceReference: CreateDeferenceReferenceInput[];
 
-  @Field((type) => [CreateDeferencePartnerLogoUrlInput], { nullable: true })
+  @Field((type) => [CreateDeferencePartnerLogoUrlInput])
   deferencePartnerLogoUrl: CreateDeferencePartnerLogoUrlInput[];
 }
 
@@ -98,12 +98,12 @@ export class UpdateDeferenceInput {
   @Field()
   schedulePosterUrlMobile: string;
 
-  @Field((type) => UpdateDeferenceSpeakerInput, { nullable: true })
+  @Field((type) => UpdateDeferenceSpeakerInput)
   deferenceSpeaker: UpdateDeferenceSpeakerInput;
 
-  @Field((type) => UpdateDeferenceReferenceInput, { nullable: true })
+  @Field((type) => UpdateDeferenceReferenceInput)
   deferenceReference: UpdateDeferenceReferenceInput;
 
-  @Field((type) => UpdateDeferencePartnerLogoUrlInput, { nullable: true })
+  @Field((type) => UpdateDeferencePartnerLogoUrlInput)
   deferencePartnerLogoUrl: UpdateDeferencePartnerLogoUrlInput;
 }
