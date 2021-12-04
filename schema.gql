@@ -141,16 +141,43 @@ type CountResponse {
   count: Int!
 }
 
-type DeferenceImageResponse {
+type DeferencePartnerLogoUrlResponse {
+  id: Int!
+  name: String!
+  imageUrl: String!
+}
+
+type DeferenceReferenceResponse {
   id: Int!
   type: String!
+  link: String!
+}
+
+type DeferenceSpeakerResponse {
+  id: Int!
+  name: String!
   imageUrl: String!
+  info: String!
 }
 
 type DeferenceResponse {
   id: Int!
   year: Int!
-  deferenceImage: [DeferenceImageResponse!]
+  summary: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  participationMethod: String!
+  contents: String!
+  audience: String!
+  host: String!
+  formLink: String!
+  mainPosterUrlDesktop: String!
+  mainPosterUrlMobile: String!
+  schedulePosterUrlDesktop: String!
+  schedulePosterUrlMobile: String!
+  deferenceSpeaker: [DeferenceSpeakerResponse!]
+  deferenceReference: [DeferenceReferenceResponse!]
+  deferencePartnerLogoUrl: [DeferencePartnerLogoUrlResponse!]
 }
 
 type Query {
@@ -339,23 +366,75 @@ input UpdateNewsInput {
 
 input CreateDeferenceInput {
   year: Int!
-  deferenceImage: [CreateDeferenceImageInput!]
+  summary: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  participationMethod: String!
+  contents: String!
+  audience: String!
+  host: String!
+  formLink: String!
+  mainPosterUrlDesktop: String!
+  mainPosterUrlMobile: String!
+  schedulePosterUrlDesktop: String!
+  schedulePosterUrlMobile: String!
+  deferenceSpeaker: [CreateDeferenceSpeakerInput!]
+  deferenceReference: [CreateDeferenceReferenceInput!]
+  deferencePartnerLogoUrl: [CreateDeferencePartnerLogoUrlInput!]
 }
 
-input CreateDeferenceImageInput {
+input CreateDeferenceSpeakerInput {
+  name: String!
+  imageUrl: String!
+  info: String!
+}
+
+input CreateDeferenceReferenceInput {
   type: String!
+  link: String!
+}
+
+input CreateDeferencePartnerLogoUrlInput {
+  name: String!
   imageUrl: String!
 }
 
 input UpdateDeferenceInput {
   id: Int!
   year: Int!
-  deferenceImage: UpdateDeferenceImageInput
+  summary: String!
+  startTime: DateTime!
+  endTime: DateTime!
+  participationMethod: String!
+  contents: String!
+  audience: String!
+  host: String!
+  formLink: String!
+  mainPosterUrlDesktop: String!
+  mainPosterUrlMobile: String!
+  schedulePosterUrlDesktop: String!
+  schedulePosterUrlMobile: String!
+  deferenceSpeaker: UpdateDeferenceSpeakerInput
+  deferenceReference: UpdateDeferenceReferenceInput
+  deferencePartnerLogoUrl: UpdateDeferencePartnerLogoUrlInput
 }
 
-input UpdateDeferenceImageInput {
+input UpdateDeferenceSpeakerInput {
+  id: Int!
+  name: String!
+  imageUrl: String!
+  info: String!
+}
+
+input UpdateDeferenceReferenceInput {
   id: Int!
   type: String!
+  link: String!
+}
+
+input UpdateDeferencePartnerLogoUrlInput {
+  id: Int!
+  name: String!
   imageUrl: String!
 }
 
