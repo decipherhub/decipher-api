@@ -10,4 +10,4 @@ RUN apk add --no-cache --virtual .gyp \
 COPY . .
 RUN yarn prisma generate && yarn build
 EXPOSE 3000
-CMD ["yarn", "start:prod"]  
+CMD ["yarn", "start:prod"]
