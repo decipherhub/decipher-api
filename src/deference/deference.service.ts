@@ -12,7 +12,9 @@ export class DeferenceService {
         id,
       },
       include: {
-        deferenceImage: true,
+        deferenceSpeaker: true,
+        deferenceReference: true,
+        deferencePartnerLogoUrl: true
       },
       rejectOnNotFound: true,
     });
@@ -21,7 +23,9 @@ export class DeferenceService {
   async getDeferences(): Promise<Deference[]> {
     return await this.prisma.deference.findMany({
       include: {
-        deferenceImage: true,
+        deferenceSpeaker: true,
+        deferenceReference: true,
+        deferencePartnerLogoUrl: true
       },
     });
   }
@@ -29,19 +33,60 @@ export class DeferenceService {
   async createDeference(
     createDeferenceInput: CreateDeferenceInput,
   ): Promise<Deference> {
-    const { year, deferenceImage } = createDeferenceInput;
+    const { 
+      year, 
+      summary, 
+      startTime, 
+      endTime, 
+      participationMethod, 
+      contents, 
+      audience, 
+      host, 
+      formLink, 
+      mainPosterUrlDesktop, 
+      mainPosterUrlMobile, 
+      schedulePosterUrlDesktop, 
+      schedulePosterUrlMobile,
+      deferenceSpeaker,
+      deferenceReference,
+      deferencePartnerLogoUrl
+    } = createDeferenceInput;
 
     return await this.prisma.deference.create({
       data: {
         year,
-        deferenceImage: {
+        summary, 
+        startTime, 
+        endTime, 
+        participationMethod, 
+        contents, 
+        audience, 
+        host, 
+        formLink, 
+        mainPosterUrlDesktop, 
+        mainPosterUrlMobile, 
+        schedulePosterUrlDesktop, 
+        schedulePosterUrlMobile,
+        deferenceSpeaker: {
           createMany: { 
-            data: deferenceImage 
+            data: deferenceSpeaker
           }
         },
+        deferenceReference: {
+          createMany: {
+            data: deferenceReference
+          }
+        },
+        deferencePartnerLogoUrl: {
+          createMany: {
+            data: deferencePartnerLogoUrl
+          }
+        }
       },
       include: {
-        deferenceImage: true,
+        deferenceSpeaker: true,
+        deferenceReference: true,
+        deferencePartnerLogoUrl: true
       },
     });
   }
@@ -49,31 +94,82 @@ export class DeferenceService {
   async updateDeference(
     updateDeferenceInput: UpdateDeferenceInput,
   ): Promise<Deference> {
-    const { id, year, deferenceImage } = updateDeferenceInput;
-    const deferenceImage_id = deferenceImage.id;
-    const deferenceImage_type = deferenceImage.type;
-    const deferenceImage_imageUrl = deferenceImage.imageUrl;
+    const { 
+      id,
+      year, 
+      summary, 
+      startTime, 
+      endTime, 
+      participationMethod, 
+      contents, 
+      audience, 
+      host, 
+      formLink, 
+      mainPosterUrlDesktop, 
+      mainPosterUrlMobile, 
+      schedulePosterUrlDesktop, 
+      schedulePosterUrlMobile,
+      deferenceSpeaker,
+      deferenceReference,
+      deferencePartnerLogoUrl
+    } = updateDeferenceInput;
     return this.prisma.deference.update({
       where: {
         id,
       },
       data: {
         year,
-        deferenceImage: {
+        summary, 
+        startTime, 
+        endTime, 
+        participationMethod, 
+        contents, 
+        audience, 
+        host, 
+        formLink, 
+        mainPosterUrlDesktop, 
+        mainPosterUrlMobile, 
+        schedulePosterUrlDesktop, 
+        schedulePosterUrlMobile,
+        deferenceSpeaker: {
           update: {
             where: {
-              id: deferenceImage_id
+              id: deferenceSpeaker.id
+            }, 
+            data: {
+              name: deferenceSpeaker.name,
+              imageUrl: deferenceSpeaker.imageUrl,
+              info: deferenceSpeaker.info
+            }
+          }
+        },
+        deferenceReference: {
+          update: {
+            where: {
+              id: deferenceReference.id
             },
             data: {
-              type: deferenceImage_type,
-              imageUrl: deferenceImage_imageUrl
+              type: deferenceReference.type,
+              link: deferenceReference.link
             }
-          },
-
+          }
+        },
+        deferencePartnerLogoUrl: {
+          update: {
+            where: {
+              id: deferencePartnerLogoUrl.id
+            },
+            data: {
+              name: deferencePartnerLogoUrl.name,
+              imageUrl: deferencePartnerLogoUrl.imageUrl
+            }
+          }
         }
       },
       include: {
-        deferenceImage: true
+        deferenceSpeaker: true,
+        deferenceReference: true,
+        deferencePartnerLogoUrl: true
       }
     });
   }

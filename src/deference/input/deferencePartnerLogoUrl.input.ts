@@ -1,21 +1,21 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
-export class CreateDeferenceImageInput {
+export class CreateDeferencePartnerLogoUrlInput {
   @Field()
-  type: string;
+  name: string;
 
   @Field()
   imageUrl: string;
 }
 
 @InputType()
-export class UpdateDeferenceImageInput {
+export class UpdateDeferencePartnerLogoUrlInput {
   @Field((type) => Int)
   id: number;
 
   @Field()
-  type: string;
+  name: string;
 
   @Field()
   imageUrl: string;

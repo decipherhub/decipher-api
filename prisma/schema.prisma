@@ -129,18 +129,49 @@ model News {
   isDisclosed Boolean
 }
 
-model DeferenceImage {
+model Deference {
+  id                        Int         @id @default(autoincrement())
+  year                      Int
+  summary                   String
+  startTime                 DateTime
+  endTime                   DateTime
+  participationMethod       String
+  contents                  String
+  audience                  String
+  host                      String
+  formLink                  String
+  mainPosterUrlDesktop      String
+  mainPosterUrlMobile       String
+  schedulePosterUrlDesktop  String
+  schedulePosterUrlMobile   String
+  deferenceSpeaker          DeferenceSpeaker[]
+  deferenceReference        DeferenceReference[]
+  deferencePartnerLogoUrl   DeferencePartnerLogoUrl[]
+}
+
+model DeferenceSpeaker {
   id                Int               @id @default(autoincrement())
-  type              String
-  imageUrl         String
+  name              String
+  imageUrl          String
+  info              String
   deference         Deference         @relation(fields: [deferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   deferenceId       Int
 }
 
-model Deference {
-  id             Int              @id @default(autoincrement())
-  year           Int
-  deferenceImage DeferenceImage[]
+model DeferenceReference {
+  id                Int               @id @default(autoincrement())
+  type              String
+  link              String
+  deference         Deference         @relation(fields: [deferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  deferenceId       Int
+}
+
+model DeferencePartnerLogoUrl {
+  id                Int               @id @default(autoincrement())
+  name              String
+  imageUrl          String
+  deference         Deference         @relation(fields: [deferenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  deferenceId       Int
 }
 
 model Medium {
