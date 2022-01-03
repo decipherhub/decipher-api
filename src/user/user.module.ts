@@ -4,6 +4,7 @@ import { UserService } from './service/user.service';
 import { UserResolver } from './resolver/user.resolver';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from 'user/strategy/user.strategy';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
   ],
-  providers: [PrismaService, UserService, UserResolver],
+  providers: [PrismaService, UserService, UserResolver, JwtStrategy],
 })
 export class UserModule {}
