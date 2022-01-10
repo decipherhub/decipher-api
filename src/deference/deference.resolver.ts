@@ -1,8 +1,12 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
-import { CreateDeferenceInput, UpdateDeferenceInput } from './input/deference.input';
+import {
+  CreateDeferenceInput,
+  UpdateDeferenceInput,
+} from './input/deference.input';
 import { DeferenceResponse } from './response/deference.response';
 import { DeferenceService } from './deference.service';
-import { create } from 'domain';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'user/guard/user.guard';
 
 @Resolver((of) => DeferenceResponse)
 export class DeferenceResolver {
@@ -18,6 +22,7 @@ export class DeferenceResolver {
     return this.deferenceService.getDeferences();
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((returns) => DeferenceResponse)
   createDeference(
     @Args('createDeferenceInput') createDeferenceInput: CreateDeferenceInput,
@@ -25,6 +30,7 @@ export class DeferenceResolver {
     return this.deferenceService.createDeference(createDeferenceInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((returns) => DeferenceResponse)
   updateDeference(
     @Args('updateDeferenceInput') updateDeferenceInput: UpdateDeferenceInput,
@@ -32,6 +38,7 @@ export class DeferenceResolver {
     return this.deferenceService.updateDeference(updateDeferenceInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((returns) => DeferenceResponse)
   deleteDeference(@Args('id') id: number) {
     return this.deferenceService.deleteDeference(id);

@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthGuard } from 'user/guard/user.guard';
 import {
   ProjectInput,
   ProjectFindManyInput,
@@ -23,11 +25,13 @@ export class ProjectResolver {
     return this.projectService.findProjects(projectFindManyInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => ProjectResponse)
   createProject(@Args('projectInput') projectInput: ProjectInput) {
     return this.projectService.createProject(projectInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => ProjectResponse)
   updateProject(
     @Args('projectUpdateInput') projectUpdateInput: ProjectUpdateInput,
@@ -35,6 +39,7 @@ export class ProjectResolver {
     return this.projectService.updateProject(projectUpdateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => ProjectResponse)
   deleteProject(
     @Args('projectUniqueInput') projectUniqueInput: ProjectUniqueInput,
