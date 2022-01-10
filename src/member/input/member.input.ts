@@ -14,14 +14,10 @@ export class MemberInput {
   @Field()
   imageUrl: string;
 
-  @Field((_type) => [ContactInput], {
-    nullable: true,
-  })
+  @Field((_type) => [ContactInput])
   contacts: ContactInput[];
 
-  @Field((_type) => [PeriodMemberInput], {
-    nullable: true,
-  })
+  @Field((_type) => [PeriodMemberInput])
   periods: PeriodMemberInput[];
 }
 

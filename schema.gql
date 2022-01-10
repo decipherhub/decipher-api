@@ -292,7 +292,7 @@ input MemberInput {
   name: String!
   info: String!
   imageUrl: String!
-  contacts: [ContactInput!]
+  contacts: [ContactInput!]!
   periods: [PeriodMemberInput!]
 }
 
@@ -378,9 +378,9 @@ input CreateDeferenceInput {
   mainPosterUrlMobile: String!
   schedulePosterUrlDesktop: String!
   schedulePosterUrlMobile: String!
-  deferenceSpeaker: [CreateDeferenceSpeakerInput!]
-  deferenceReference: [CreateDeferenceReferenceInput!]
-  deferencePartnerLogoUrl: [CreateDeferencePartnerLogoUrlInput!]
+  deferenceSpeaker: [CreateDeferenceSpeakerInput!]!
+  deferenceReference: [CreateDeferenceReferenceInput!]!
+  deferencePartnerLogoUrl: [CreateDeferencePartnerLogoUrlInput!]!
 }
 
 input CreateDeferenceSpeakerInput {
@@ -414,9 +414,9 @@ input UpdateDeferenceInput {
   mainPosterUrlMobile: String!
   schedulePosterUrlDesktop: String!
   schedulePosterUrlMobile: String!
-  deferenceSpeaker: UpdateDeferenceSpeakerInput
-  deferenceReference: UpdateDeferenceReferenceInput
-  deferencePartnerLogoUrl: UpdateDeferencePartnerLogoUrlInput
+  deferenceSpeaker: UpdateDeferenceSpeakerInput!
+  deferenceReference: UpdateDeferenceReferenceInput!
+  deferencePartnerLogoUrl: UpdateDeferencePartnerLogoUrlInput!
 }
 
 input UpdateDeferenceSpeakerInput {
