@@ -1,4 +1,6 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthGuard } from 'user/guard/user.guard';
 import {
   MemberFindManyInput,
   MemberInput,
@@ -23,11 +25,13 @@ export class MemberResolver {
     return this.memberService.findMembers(memberFindManyInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MemberResponse)
   createMember(@Args('memberInput') memberInput: MemberInput) {
     return this.memberService.createMember(memberInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MemberResponse)
   updateMember(
     @Args('memberUpdateInput') memberUpdateManyInput: MemberUpdateInput,
@@ -35,6 +39,7 @@ export class MemberResolver {
     return this.memberService.updateMember(memberUpdateManyInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MemberResponse)
   deleteMember(
     @Args('memberUniqueInput') memberUniqueInput: MemberUniqueInput,

@@ -1,5 +1,7 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Period, PeriodMember } from '@prisma/client';
+import { GqlAuthGuard } from 'user/guard/user.guard';
 import { PeriodFindInput, PeriodInput } from './input/period.input';
 import {
   PeriodMemberInput,
@@ -36,11 +38,13 @@ export class PeriodResolver {
     return this.periodService.getAllPeriods(periodFindInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => PeriodResponse)
   createPeriod(@Args('periodInput') periodInput: PeriodInput): Promise<Period> {
     return this.periodService.createPeriod(periodInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => PeriodMemberResponse)
   createPeriodMember(
     @Args('periodMemberCreateInput')
@@ -49,6 +53,7 @@ export class PeriodResolver {
     return this.periodService.createPeriodMember(periodMemberCreateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => PeriodMemberResponse)
   updatePeriodMember(
     @Args('periodMemberUpdateInput')
@@ -57,6 +62,7 @@ export class PeriodResolver {
     return this.periodService.updatePeriodMember(periodMemberUpdateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => PeriodMemberResponse)
   deletePeriodMember(
     @Args('periodMemberUniqueInput')

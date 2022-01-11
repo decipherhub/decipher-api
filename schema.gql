@@ -213,8 +213,6 @@ input UsersFindInput {
 
 input UserFindInput {
   id: Float!
-  email: String
-  name: String
 }
 
 input MemberUniqueInput {

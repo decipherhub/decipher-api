@@ -1,4 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GqlAuthGuard } from 'user/guard/user.guard';
 import {
   MediumInput,
   MediumFindManyInput,
@@ -38,21 +40,25 @@ export class MediumResolver {
     return this.mediumService.countMedium(mediumCountInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => TagResponse)
   createTag(@Args('tagCreateInput') tagCreateInput: TagCreateInput) {
     return this.mediumService.createTag(tagCreateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => TagResponse)
   deleteTag(@Args('tagUniqueInput') tagUniqueInput: TagUniqueInput) {
     return this.mediumService.deleteTag(tagUniqueInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MediumResponse)
   createMedium(@Args('mediumCreateInput') mediumCreateInput: MediumInput) {
     return this.mediumService.createMedium(mediumCreateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MediumResponse)
   updateMedium(
     @Args('mediumUpdateInput') mediumUpdateInput: MediumUpdateInput,
@@ -60,6 +66,7 @@ export class MediumResolver {
     return this.mediumService.updateMedium(mediumUpdateInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation((_returns) => MediumResponse)
   deleteMedium(
     @Args('mediumUniqueInput') mediumUniqueInput: MediumUniqueInput,
